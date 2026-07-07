@@ -1,12 +1,12 @@
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 
-import Login from "./pages/Login/Login";
-import Register from "./pages/Register/Register";
-import Dashboard from "./pages/Dashboard/Dashboard";
-import Tasks from "./pages/Tasks/Tasks";
+import Login from "./pages/login/login";
+import Register from "./pages/register/register";
+import Dashboard from "./pages/dashboard/dashboard";
+import Tasks from "./pages/tasks/tasks";
 import CreateTask from "./pages/createTask/createTask";
 import EditTask from "./pages/EditTask/EditTask";
-import NotFound from "./pages/NotFound/NotFound";
+import NotFound from "./pages/notfound/notfound";
 
 import ProtectedRoute from "./components/ProtectedRoute";
 

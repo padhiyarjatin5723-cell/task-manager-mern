@@ -4,6 +4,10 @@ export const getTasks = async () => {
   return await api.get("/tasks");
 };
 
+export const getTaskById = async (id) => {
+  return await api.get(`/tasks/${id}`);
+};
+
 export const createTask = async (data) => {
   return await api.post("/tasks", data);
 };
