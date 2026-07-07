@@ -5,6 +5,7 @@ import Navbar from "../../components/navbar/navbar";
 import Sidebar from "../../components/sidebar/sidebar";
 import TaskCard from "../../components/taskcard/taskcard";
 import Loader from "../../components/loader/loader";
+import Input from "../../components/input/input";
 
 import {
   getTasks,
