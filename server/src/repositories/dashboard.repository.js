@@ -1,5 +1,4 @@
-import Task from "../models/task.js";
-
+import Task from "../models/Task.js";
 export const getStats = async (userId) => {
   const total = await Task.countDocuments({
     user: userId,
