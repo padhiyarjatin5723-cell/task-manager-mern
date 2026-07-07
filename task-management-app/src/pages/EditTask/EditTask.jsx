@@ -2,10 +2,10 @@ import { useEffect, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import toast from "react-hot-toast";
 
-import Navbar from "../../components/Navbar/Navbar";
-import Sidebar from "../../components/Sidebar/Sidebar";
-import Input from "../../components/Input/Input";
-import Button from "../../components/Button/Button";
+import Navbar from "../../components/navbar/navbar";
+import Sidebar from "../../components/sidebar/sidebar";
+import Input from "../../components/input/input";
+import Button from "../../components/button/button";
 
 import {
   getTaskById,

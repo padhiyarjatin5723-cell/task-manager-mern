@@ -1,9 +1,9 @@
 import { useEffect, useState } from "react";
 
-import Navbar from "../../components/Navbar/Navbar";
-import Sidebar from "../../components/Sidebar/Sidebar";
-import DashboardCard from "../../components/DashboardCard/DashboardCard";
-import Loader from "../../components/Loader/Loader";
+import Navbar from "../../components/navbar/navbar";
+import Sidebar from "../../components/sidebar/sidebar";
+import DashboardCard from "../../components/dashboardcard/dashboardcard";
+import Loader from "../../components/loader/loader";
 
 import {
   getDashboardStats,

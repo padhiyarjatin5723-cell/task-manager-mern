@@ -3,10 +3,10 @@ import { Link, useNavigate } from "react-router-dom";
 import { FaTasks } from "react-icons/fa";
 import toast from "react-hot-toast";
 
-import Card from "../../components/Card/Card";
-import Input from "../../components/Input/Input";
-import Button from "../../components/Button/Button";
-import AuthLayout from "../../layouts/AuthLayout";
+import Card from "../../components/card/card";
+import Input from "../../components/input/input";
+import Button from "../../components/button/button";
+import AuthLayout from "../../layouts/authlayout";
 
 import { loginUser } from "../../services/auth/auth.service";
 

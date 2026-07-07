@@ -1,10 +1,10 @@
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 
-import Navbar from "../../components/Navbar/Navbar";
-import Sidebar from "../../components/Sidebar/Sidebar";
-import Input from "../../components/Input/Input";
-import Loader from "../../components/Loader/Loader";
+import Navbar from "../../components/navbar/navbar";
+import Sidebar from "../../components/sidebar/sidebar";
+import TaskCard from "../../components/taskcard/taskcard";
+import Loader from "../../components/loader/loader";
 
 import {
   getTasks,
