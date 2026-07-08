@@ -3,79 +3,55 @@ import {
   CheckSquare,
   PlusCircle,
   Settings,
-  Sparkles,
-  Crown,
+  BarChart3,
 } from "lucide-react";
 
 import { NavLink } from "react-router-dom";
 
 function Sidebar() {
-
   const menus = [
     {
       name: "Dashboard",
       path: "/dashboard",
-      icon: <LayoutDashboard size={21} />,
+      icon: <LayoutDashboard size={20} />,
     },
     {
       name: "Tasks",
       path: "/tasks",
-      icon: <CheckSquare size={21} />,
+      icon: <CheckSquare size={20} />,
     },
     {
       name: "Create Task",
       path: "/create-task",
-      icon: <PlusCircle size={21} />,
+      icon: <PlusCircle size={20} />,
     },
     {
       name: "Settings",
       path: "/settings",
-      icon: <Settings size={21} />,
+      icon: <Settings size={20} />,
     },
   ];
 
   return (
+    <aside className="w-[280px] shrink-0">
 
-    <aside className="w-80 p-6">
+      <div className="sticky top-8">
 
-      <div className="sticky top-28">
+        <div className="rounded-[32px] border border-white/10 bg-white/[0.04] backdrop-blur-3xl shadow-[0_20px_80px_rgba(0,0,0,.45)] p-7 flex flex-col">
 
-        <div className="rounded-[30px] bg-white/70 backdrop-blur-2xl border border-white shadow-2xl p-7">
+          <div className="mb-12">
 
-          <div className="mb-10">
+            <h1 className="text-3xl font-black tracking-tight text-white">
+              TaskFlow
+            </h1>
 
-            <div className="flex items-center gap-3">
-
-              <div className="h-14 w-14 rounded-2xl bg-gradient-to-r from-indigo-600 via-violet-600 to-purple-600 flex items-center justify-center shadow-lg">
-
-                <Sparkles
-                  size={24}
-                  className="text-white"
-                />
-
-              </div>
-
-              <div>
-
-                <h2 className="font-black text-2xl">
-
-                  Workspace
-
-                </h2>
-
-                <p className="text-slate-500 text-sm">
-
-                  TaskFlow Pro
-
-                </p>
-
-              </div>
-
-            </div>
+            <p className="mt-2 text-sm text-slate-400">
+              Productivity Workspace
+            </p>
 
           </div>
 
-          <nav className="space-y-3">
+          <nav className="space-y-2">
 
             {menus.map((item) => (
 
@@ -83,24 +59,29 @@ function Sidebar() {
                 key={item.path}
                 to={item.path}
                 className={({ isActive }) =>
-                  `group flex items-center gap-4 rounded-2xl px-5 py-4 font-semibold transition-all duration-300 ${
+                  `
+                  flex
+                  items-center
+                  gap-4
+                  rounded-2xl
+                  px-5
+                  py-4
+                  transition-all
+                  duration-300
+
+                  ${
                     isActive
-                      ? "bg-gradient-to-r from-indigo-600 via-violet-600 to-purple-600 text-white shadow-xl scale-105"
-                      : "text-slate-600 hover:bg-slate-100 hover:translate-x-2"
-                  }`
+                      ? "bg-gradient-to-r from-violet-600 to-indigo-600 text-white shadow-xl"
+                      : "text-slate-400 hover:bg-white/5 hover:text-white"
+                  }
+                  `
                 }
               >
 
-                <span>
+                {item.icon}
 
-                  {item.icon}
-
-                </span>
-
-                <span>
-
+                <span className="font-medium">
                   {item.name}
-
                 </span>
 
               </NavLink>
@@ -109,33 +90,28 @@ function Sidebar() {
 
           </nav>
 
-          <div className="mt-12 rounded-3xl bg-gradient-to-br from-indigo-600 via-violet-600 to-purple-700 p-6 text-white shadow-xl">
+          <div className="mt-10 border-t border-white/10 pt-6">
 
-            <div className="flex items-center gap-3 mb-3">
-
-              <Crown size={24} />
-
-              <h3 className="font-bold text-xl">
-
-                Pro Plan
-
-              </h3>
-
-            </div>
-
-            <p className="text-sm text-indigo-100 leading-6">
-
-              Unlock AI productivity, analytics,
-              smart scheduling and advanced
-              collaboration.
-
+            <p className="mb-4 text-xs uppercase tracking-[0.3em] text-slate-500">
+              Quick Access
             </p>
 
-            <button className="mt-6 w-full rounded-2xl bg-white py-3 font-bold text-indigo-700 hover:scale-105 duration-300">
+            <div className="space-y-3">
 
-              Upgrade Now
+              <button className="w-full rounded-2xl border border-white/10 bg-white/5 px-4 py-3 text-left text-slate-300 transition-all duration-300 hover:border-violet-500 hover:bg-violet-500/10 hover:text-white">
+                📅 Today's Tasks
+              </button>
 
-            </button>
+              <button className="w-full rounded-2xl border border-white/10 bg-white/5 px-4 py-3 text-left text-slate-300 transition-all duration-300 hover:border-violet-500 hover:bg-violet-500/10 hover:text-white">
+                ⭐ High Priority
+              </button>
+
+              <button className="flex w-full items-center gap-3 rounded-2xl border border-white/10 bg-white/5 px-4 py-3 text-left text-slate-300 transition-all duration-300 hover:border-violet-500 hover:bg-violet-500/10 hover:text-white">
+                <BarChart3 size={18} />
+                Analytics
+              </button>
+
+            </div>
 
           </div>
 
@@ -144,9 +120,7 @@ function Sidebar() {
       </div>
 
     </aside>
-
   );
-
 }
 
 export default Sidebar;
