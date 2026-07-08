@@ -1,9 +1,13 @@
 import {
-  CheckCircle2,
+  CalendarDays,
+  Circle,
   Clock3,
+  CheckCircle2,
   LoaderCircle,
-  AlertTriangle,
+  Flag,
 } from "lucide-react";
+
+import { motion } from "framer-motion";
 
 function RecentTasks({ tasks }) {
   const getStatus = (status) => {
@@ -11,24 +15,30 @@ function RecentTasks({ tasks }) {
       case "Completed":
         return {
           icon: <CheckCircle2 size={18} />,
-          color: "bg-emerald-500/20 text-emerald-400",
+          color: "text-emerald-400",
+          bg: "bg-emerald-500/10",
+          border: "border-emerald-500/30",
         };
 
       case "In Progress":
         return {
           icon: <LoaderCircle size={18} className="animate-spin" />,
-          color: "bg-cyan-500/20 text-cyan-400",
+          color: "text-cyan-400",
+          bg: "bg-cyan-500/10",
+          border: "border-cyan-500/30",
         };
 
       default:
         return {
           icon: <Clock3 size={18} />,
-          color: "bg-orange-500/20 text-orange-400",
+          color: "text-orange-400",
+          bg: "bg-orange-500/10",
+          border: "border-orange-500/30",
         };
     }
   };
 
-  const getPriority = (priority) => {
+  const getPriorityColor = (priority) => {
     switch (priority) {
       case "High":
         return "text-red-400";
@@ -42,97 +52,129 @@ function RecentTasks({ tasks }) {
   };
 
   return (
-    <div className="rounded-[30px] border border-white/10 bg-white/[0.04] backdrop-blur-3xl p-7">
+    <div className="rounded-[30px] border border-white/10 bg-[#151823]/90 backdrop-blur-3xl p-7 shadow-[0_20px_60px_rgba(0,0,0,.35)]">
 
       <div className="flex items-center justify-between mb-8">
 
         <div>
 
-          <h2 className="text-2xl font-bold text-white">
-            Recent Tasks
+          <h2 className="text-3xl font-black text-white">
+            Recent Activity
           </h2>
 
-          <p className="text-slate-400 mt-1">
-            Latest activity
+          <p className="mt-2 text-slate-400">
+            Latest created tasks
           </p>
 
         </div>
 
-        <div className="rounded-xl bg-violet-600/20 px-4 py-2 text-violet-300 text-sm">
-          {tasks.length} Tasks
+        <div className="rounded-2xl bg-violet-600/10 border border-violet-500/20 px-4 py-2">
+
+          <span className="text-violet-300 font-semibold">
+            {tasks.length} Tasks
+          </span>
+
         </div>
 
       </div>
 
-      <div className="space-y-4">
+      <div className="space-y-5">
 
         {tasks.length === 0 ? (
 
-          <div className="rounded-2xl border border-dashed border-white/10 py-14 text-center">
+          <div className="rounded-3xl border border-dashed border-white/10 py-20 text-center">
 
-            <AlertTriangle
-              size={34}
-              className="mx-auto text-slate-500"
+            <Circle
+              size={38}
+              className="mx-auto text-slate-600"
             />
 
-            <p className="mt-4 text-slate-400">
-              No tasks yet
+            <h3 className="mt-6 text-xl font-bold text-white">
+              No Recent Tasks
+            </h3>
+
+            <p className="mt-2 text-slate-500">
+              Create your first task to get started.
             </p>
 
           </div>
 
         ) : (
 
-          tasks.slice(0, 5).map((task) => {
+          tasks.map((task, index) => {
 
             const status = getStatus(task.status);
 
             return (
 
-              <div
+              <motion.div
                 key={task._id}
-                className="group rounded-2xl border border-white/5 bg-white/[0.03] p-5 transition-all duration-300 hover:border-violet-500/30 hover:bg-white/[0.05]"
+                initial={{
+                  opacity: 0,
+                  x: 40,
+                }}
+                animate={{
+                  opacity: 1,
+                  x: 0,
+                }}
+                transition={{
+                  delay: index * .08,
+                }}
+                whileHover={{
+                  x: 6,
+                }}
+                className={`rounded-3xl border ${status.border} ${status.bg} p-6 transition-all duration-300`}
               >
 
-                <div className="flex justify-between">
+                <div className="flex justify-between items-start">
 
                   <div>
 
-                    <h3 className="font-semibold text-white">
+                    <h3 className="text-xl font-bold text-white">
                       {task.title}
                     </h3>
 
-                    <p className="mt-2 text-sm text-slate-500">
-                      {task.description}
+                    <p className="mt-2 text-slate-400 line-clamp-2">
+                      {task.description || "No description"}
                     </p>
 
                   </div>
 
-                  <div
-                    className={`flex h-10 w-10 items-center justify-center rounded-xl ${status.color}`}
-                  >
+                  <div className={`${status.color}`}>
                     {status.icon}
                   </div>
 
                 </div>
 
-                <div className="mt-5 flex items-center justify-between">
+                <div className="mt-6 flex flex-wrap gap-3">
 
-                  <span
-                    className={`rounded-full px-3 py-1 text-xs font-semibold ${status.color}`}
-                  >
+                  <span className={`rounded-xl px-4 py-2 text-sm font-semibold ${status.bg} ${status.color}`}>
                     {task.status}
                   </span>
 
-                  <span
-                    className={`text-sm font-medium ${getPriority(task.priority)}`}
-                  >
-                    {task.priority} Priority
+                  <span className="flex items-center gap-2 rounded-xl bg-white/5 px-4 py-2 text-slate-300 text-sm">
+
+                    <Flag size={15} />
+
+                    <span className={getPriorityColor(task.priority)}>
+                      {task.priority}
+                    </span>
+
+                  </span>
+
+                  <span className="flex items-center gap-2 rounded-xl bg-white/5 px-4 py-2 text-slate-300 text-sm">
+
+                    <CalendarDays size={15} />
+
+                    {task.dueDate
+                      ? new Date(task.dueDate).toLocaleDateString()
+                      : "No Due Date"}
+
                   </span>
 
                 </div>
 
-              </div>
+              </motion.div>
 
             );
 

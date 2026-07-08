@@ -6,6 +6,7 @@ import Dashboard from "./pages/dashboard/dashboard";
 import Tasks from "./pages/tasks/tasks";
 import CreateTask from "./pages/createTask/createTask";
 import EditTask from "./pages/EditTask/EditTask";
+import Analytics from "./pages/analytics/analytics";
 import NotFound from "./pages/notfound/notfound";
 
 import ProtectedRoute from "./components/ProtectedRoute";
@@ -72,6 +73,16 @@ function App() {
           element={
             <ProtectedRoute>
               <EditTask />
+            </ProtectedRoute>
+          }
+        />
+
+        {/* Analytics */}
+        <Route
+          path="/analytics"
+          element={
+            <ProtectedRoute>
+              <Analytics />
             </ProtectedRoute>
           }
         />
