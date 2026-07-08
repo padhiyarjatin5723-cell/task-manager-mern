@@ -27,3 +27,13 @@ export const getStats = async (userId) => {
     inProgress,
   };
 };
+
+export const getRecentTasks = async (userId) => {
+  return await Task.find({
+    user: userId,
+  })
+    .sort({
+      createdAt: -1,
+    })
+    .limit(5);
+};

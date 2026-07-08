@@ -9,20 +9,34 @@ import EditTask from "./pages/EditTask/EditTask";
 import NotFound from "./pages/notfound/notfound";
 
 import ProtectedRoute from "./components/ProtectedRoute";
+import CommandPalette from "./components/commandpalette/CommandPalette";
 
 function App() {
   return (
     <BrowserRouter>
+
+      <CommandPalette />
+
       <Routes>
 
         {/* Default */}
-        <Route path="/" element={<Login />} />
+        <Route
+          path="/"
+          element={<Login />}
+        />
 
         {/* Auth */}
-        <Route path="/login" element={<Login />} />
-        <Route path="/register" element={<Register />} />
+        <Route
+          path="/login"
+          element={<Login />}
+        />
 
-        {/* Protected Routes */}
+        <Route
+          path="/register"
+          element={<Register />}
+        />
+
+        {/* Dashboard */}
         <Route
           path="/dashboard"
           element={
@@ -32,6 +46,7 @@ function App() {
           }
         />
 
+        {/* Tasks */}
         <Route
           path="/tasks"
           element={
@@ -41,6 +56,7 @@ function App() {
           }
         />
 
+        {/* Create Task */}
         <Route
           path="/create-task"
           element={
@@ -50,8 +66,9 @@ function App() {
           }
         />
 
+        {/* Edit Task */}
         <Route
-          path="/edit-task"
+          path="/edit-task/:id"
           element={
             <ProtectedRoute>
               <EditTask />
@@ -59,19 +76,14 @@ function App() {
           }
         />
 
-        <Route
-  path="/edit-task/:id"
-  element={
-    <ProtectedRoute>
-      <EditTask />
-    </ProtectedRoute>
-  }
-/>
-
         {/* 404 */}
-        <Route path="*" element={<NotFound />} />
+        <Route
+          path="*"
+          element={<NotFound />}
+        />
 
       </Routes>
+
     </BrowserRouter>
   );
 }
