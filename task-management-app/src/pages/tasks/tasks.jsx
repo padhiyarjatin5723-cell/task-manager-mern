@@ -1,11 +1,11 @@
 import { useEffect, useState } from "react";
-import { Link } from "react-router-dom";
 
+import Input from "../../components/input/input";
 import Navbar from "../../components/navbar/navbar";
 import Sidebar from "../../components/sidebar/sidebar";
-import TaskCard from "../../components/taskcard/taskcard";
 import Loader from "../../components/loader/loader";
-import Input from "../../components/input/input";
+import TaskCard from "../../components/TaskCard/TaskCard";
+import PageWrapper from "../../components/PageWrapper/PageWrapper";
 
 import {
   getTasks,
@@ -27,10 +27,8 @@ function Tasks() {
       const res = await getTasks();
 
       setTasks(res.data);
-
-    } catch (error) {
-      console.log(error);
-
+    } catch (err) {
+      console.log(err);
     } finally {
       setLoading(false);
     }
@@ -40,10 +38,9 @@ function Tasks() {
     loadTasks();
   }, []);
 
-  // ✅ Updated Delete Function
   const handleDelete = async (id) => {
     const confirmDelete = window.confirm(
-      "Are you sure you want to delete this task?"
+      "Delete this task?"
     );
 
     if (!confirmDelete) return;
@@ -51,30 +48,30 @@ function Tasks() {
     try {
       await deleteTask(id);
       loadTasks();
-    } catch (error) {
-      console.log(error);
+    } catch (err) {
+      console.log(err);
     }
   };
 
   const filteredTasks = tasks
     .filter((task) => {
-      const matchesSearch = task.title
+      const matchSearch = task.title
         .toLowerCase()
         .includes(search.toLowerCase());
 
-      const matchesStatus =
+      const matchStatus =
         statusFilter === "All"
           ? true
           : task.status === statusFilter;
 
-      return matchesSearch && matchesStatus;
+      return matchSearch && matchStatus;
     })
     .sort((a, b) => {
       if (sortBy === "Newest") {
-        return new Date(b.dueDate) - new Date(a.dueDate);
+        return new Date(b.createdAt) - new Date(a.createdAt);
       }
 
-      return new Date(a.dueDate) - new Date(b.dueDate);
+      return new Date(a.createdAt) - new Date(b.createdAt);
     });
 
   if (loading) {
@@ -82,141 +79,134 @@ function Tasks() {
   }
 
   return (
-    <div className="bg-slate-100 min-h-screen">
+    <PageWrapper>
 
-      <Navbar />
+      <div className="bg-slate-100 min-h-screen">
 
-      <div className="flex">
+        <Navbar />
 
-        <Sidebar />
+        <div className="flex">
 
-        <main className="flex-1 p-8">
+          <Sidebar />
 
-          <h1 className="text-4xl font-bold mb-6">
-            Tasks
-          </h1>
+          <main className="flex-1 p-8">
 
-          <div className="flex gap-4 mb-6 flex-wrap">
+            <div className="flex justify-between items-center mb-8">
 
-            <div className="w-80">
-              <Input
-                type="text"
-                placeholder="Search Tasks..."
-                value={search}
-                onChange={(e) => setSearch(e.target.value)}
-              />
+              <div>
+
+                <h1 className="text-4xl font-bold">
+                  Tasks
+                </h1>
+
+                <p className="text-slate-500 mt-2">
+                  Manage all your daily work efficiently
+                </p>
+
+              </div>
+
+              <div className="bg-indigo-100 text-indigo-700 px-5 py-3 rounded-2xl font-semibold">
+                {filteredTasks.length} Tasks
+              </div>
+
             </div>
 
-            <div className="w-60">
-              <select
-                value={statusFilter}
-                onChange={(e) => setStatusFilter(e.target.value)}
-                className="w-full border rounded-lg p-3"
-              >
-                <option value="All">All Tasks</option>
-                <option value="Pending">Pending</option>
-                <option value="In Progress">In Progress</option>
-                <option value="Completed">Completed</option>
-              </select>
+            <div className="bg-white rounded-3xl shadow-xl p-6 mb-8">
+
+              <div className="grid lg:grid-cols-3 gap-5">
+
+                <Input
+                  type="text"
+                  placeholder="Search Tasks..."
+                  value={search}
+                  onChange={(e) => setSearch(e.target.value)}
+                />
+
+                <select
+                  className="border border-slate-200 rounded-2xl px-4 h-14"
+                  value={statusFilter}
+                  onChange={(e) =>
+                    setStatusFilter(e.target.value)
+                  }
+                >
+                  <option value="All">
+                    All
+                  </option>
+
+                  <option value="Pending">
+                    Pending
+                  </option>
+
+                  <option value="In Progress">
+                    In Progress
+                  </option>
+
+                  <option value="Completed">
+                    Completed
+                  </option>
+
+                </select>
+
+                <select
+                  className="border border-slate-200 rounded-2xl px-4 h-14"
+                  value={sortBy}
+                  onChange={(e) =>
+                    setSortBy(e.target.value)
+                  }
+                >
+                  <option value="Newest">
+                    Newest
+                  </option>
+
+                  <option value="Oldest">
+                    Oldest
+                  </option>
+
+                </select>
+
+              </div>
+
             </div>
 
-            <div className="w-60">
-              <select
-                value={sortBy}
-                onChange={(e) => setSortBy(e.target.value)}
-                className="w-full border rounded-lg p-3"
-              >
-                <option value="Newest">Newest</option>
-                <option value="Oldest">Oldest</option>
-              </select>
-            </div>
+            {filteredTasks.length === 0 ? (
 
-          </div>
+              <div className="bg-white rounded-3xl shadow-xl p-20 text-center">
 
-          <table className="w-full bg-white rounded-xl shadow">
+                <h2 className="text-3xl font-bold">
+                  No Tasks Found
+                </h2>
 
-            <thead className="bg-blue-600 text-white">
-              <tr>
-                <th className="p-4">Title</th>
-                <th>Description</th>
-                <th>Status</th>
-                <th>Due Date</th>
-                <th>Action</th>
-              </tr>
-            </thead>
+                <p className="text-slate-500 mt-4">
+                  Create your first task 🚀
+                </p>
 
-            <tbody>
+              </div>
 
-              {filteredTasks.length === 0 ? (
+            ) : (
 
-                <tr>
-                  <td
-                    colSpan="5"
-                    className="text-center py-10 text-gray-500"
-                  >
-                    No Tasks Found
-                  </td>
-                </tr>
+              <div className="grid xl:grid-cols-2 gap-7">
 
-              ) : (
+                {filteredTasks.map((task) => (
 
-                filteredTasks.map((task) => (
-
-                  <tr
+                  <TaskCard
                     key={task._id}
-                    className="text-center border-b"
-                  >
+                    task={task}
+                    handleDelete={handleDelete}
+                  />
 
-                    <td className="p-4">
-                      {task.title}
-                    </td>
+                ))}
 
-                    <td>
-                      {task.description}
-                    </td>
+              </div>
 
-                    <td>
-                      {task.status}
-                    </td>
+            )}
 
-                    <td>
-                      {task.dueDate
-                        ? new Date(task.dueDate).toLocaleDateString()
-                        : "-"}
-                    </td>
+          </main>
 
-                    <td>
-
-                      <Link to={`/edit-task/${task._id}`}>
-                        <button className="bg-yellow-500 text-white px-3 py-1 rounded mr-2">
-                          Edit
-                        </button>
-                      </Link>
-
-                      <button
-                        onClick={() => handleDelete(task._id)}
-                        className="bg-red-500 text-white px-3 py-1 rounded"
-                      >
-                        Delete
-                      </button>
-
-                    </td>
-
-                  </tr>
-
-                ))
-
-              )}
-
-            </tbody>
-
-          </table>
-
-        </main>
+        </div>
 
       </div>
 
-    </div>
+    </PageWrapper>
   );
 }
 

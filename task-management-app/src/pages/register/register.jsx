@@ -1,16 +1,20 @@
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import { FaTasks } from "react-icons/fa";
 import toast from "react-hot-toast";
+import {
+  FaUser,
+  FaEnvelope,
+  FaLock,
+} from "react-icons/fa";
 
-import Card from "../../components/card/card";
+import AuthLayout from "../../layouts/AuthLayout";
 import Input from "../../components/input/input";
 import Button from "../../components/button/button";
-import AuthLayout from "../../layouts/authlayout";
 
 import { registerUser } from "../../services/auth/auth.service";
 
 function Register() {
+
   const navigate = useNavigate();
 
   const [loading, setLoading] = useState(false);
@@ -19,7 +23,6 @@ function Register() {
     name: "",
     email: "",
     password: "",
-    confirmPassword: "",
   });
 
   const handleChange = (e) => {
@@ -30,20 +33,14 @@ function Register() {
   };
 
   const handleSubmit = async (e) => {
+
     e.preventDefault();
 
-    if (formData.password !== formData.confirmPassword) {
-      return toast.error("Passwords do not match");
-    }
-
     try {
+
       setLoading(true);
 
-      await registerUser({
-        name: formData.name,
-        email: formData.email,
-        password: formData.password,
-      });
+      await registerUser(formData);
 
       toast.success("Registration Successful");
 
@@ -51,103 +48,113 @@ function Register() {
 
     } catch (err) {
 
-      toast.error(
-        err.response?.data?.message ||
-        "Registration Failed"
-      );
+      console.log(err);
+
+      toast.error("Registration Failed");
 
     } finally {
 
       setLoading(false);
 
     }
+
   };
 
   return (
+
     <AuthLayout>
-      <Card>
 
-        <div className="flex justify-center mb-5">
-          <div className="bg-blue-600 text-white p-4 rounded-full">
-            <FaTasks size={35} />
-          </div>
-        </div>
+      <div className="w-full max-w-md bg-white rounded-3xl shadow-2xl p-10">
 
-        <h1 className="text-3xl font-bold text-center">
-          Create Account
+        <h1 className="text-4xl font-bold text-slate-800">
+          Create Account 🚀
         </h1>
 
-        <p className="text-gray-500 text-center mt-2 mb-6">
-          Register to continue
+        <p className="text-slate-500 mt-2">
+          Join TaskFlow and start managing your work.
         </p>
 
-        <form onSubmit={handleSubmit}>
+        <form
+          onSubmit={handleSubmit}
+          className="mt-10 space-y-6"
+        >
 
-          <div className="mb-4">
+          <div className="relative">
+
+            <FaUser className="absolute left-4 top-4 text-slate-400"/>
+
             <Input
               type="text"
               name="name"
               placeholder="Full Name"
               value={formData.name}
               onChange={handleChange}
+              className="pl-12 h-14 rounded-xl"
             />
+
           </div>
 
-          <div className="mb-4">
+          <div className="relative">
+
+            <FaEnvelope className="absolute left-4 top-4 text-slate-400"/>
+
             <Input
               type="email"
               name="email"
-              placeholder="Email"
+              placeholder="Email Address"
               value={formData.email}
               onChange={handleChange}
+              className="pl-12 h-14 rounded-xl"
             />
+
           </div>
 
-          <div className="mb-4">
+          <div className="relative">
+
+            <FaLock className="absolute left-4 top-4 text-slate-400"/>
+
             <Input
               type="password"
               name="password"
               placeholder="Password"
               value={formData.password}
               onChange={handleChange}
+              className="pl-12 h-14 rounded-xl"
             />
-          </div>
 
-          <div className="mb-5">
-            <Input
-              type="password"
-              name="confirmPassword"
-              placeholder="Confirm Password"
-              value={formData.confirmPassword}
-              onChange={handleChange}
-            />
           </div>
 
           <Button
             type="submit"
             disabled={loading}
+            className="w-full h-14 rounded-xl bg-gradient-to-r from-indigo-600 to-violet-600 hover:opacity-90 text-white font-semibold"
           >
-            {loading
-              ? "Creating Account..."
-              : "Register"}
+
+            {loading ? "Creating..." : "Create Account"}
+
           </Button>
 
         </form>
 
-        <p className="text-center mt-6">
-          Already have an account?
+        <div className="text-center mt-8">
+
+          <span className="text-slate-500">
+            Already have an account?
+          </span>
 
           <Link
             to="/login"
-            className="text-blue-600 font-semibold ml-1"
+            className="text-indigo-600 font-semibold ml-2"
           >
             Login
           </Link>
 
-        </p>
+        </div>
 
-      </Card>
+      </div>
+
     </AuthLayout>
+
   );
 }
 

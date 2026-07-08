@@ -3,6 +3,7 @@ import ReactDOM from "react-dom/client";
 import { Toaster } from "react-hot-toast";
 
 import App from "./App";
+import "@fontsource/inter";
 import "./index.css";
 
 ReactDOM.createRoot(document.getElementById("root")).render(

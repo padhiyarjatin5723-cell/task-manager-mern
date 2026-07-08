@@ -6,6 +6,7 @@ import Navbar from "../../components/navbar/navbar";
 import Sidebar from "../../components/sidebar/sidebar";
 import Input from "../../components/input/input";
 import Button from "../../components/button/button";
+import PageWrapper from "../../components/PageWrapper/PageWrapper";
 
 import {
   getTaskById,
@@ -23,6 +24,8 @@ function EditTask() {
     description: "",
     dueDate: "",
     status: "Pending",
+    priority: "Medium",
+    category: "Work",
   });
 
   useEffect(() => {
@@ -40,25 +43,34 @@ function EditTask() {
           ? res.data.dueDate.split("T")[0]
           : "",
         status: res.data.status,
+        priority: res.data.priority || "Medium",
+        category: res.data.category || "Work",
       });
 
     } catch (error) {
+
       console.log(error);
+
       toast.error("Failed to Load Task");
+
     }
   };
 
   const handleChange = (e) => {
+
     setFormData({
       ...formData,
       [e.target.name]: e.target.value,
     });
+
   };
 
   const handleSubmit = async (e) => {
+
     e.preventDefault();
 
     try {
+
       setLoading(true);
 
       await updateTask(id, formData);
@@ -78,86 +90,157 @@ function EditTask() {
       setLoading(false);
 
     }
+
   };
 
   return (
-    <div className="bg-slate-100 min-h-screen">
 
-      <Navbar />
+    <PageWrapper>
 
-      <div className="flex">
+      <div className="bg-slate-100 min-h-screen">
 
-        <Sidebar />
+        <Navbar />
 
-        <main className="flex-1 p-8">
+        <div className="flex">
 
-          <h1 className="text-4xl font-bold mb-8">
-            Edit Task
-          </h1>
+          <Sidebar />
 
-          <form
-            onSubmit={handleSubmit}
-            className="bg-white p-8 rounded-xl shadow max-w-2xl"
-          >
+          <main className="flex-1 p-8">
 
-            <div className="mb-5">
-              <Input
-                type="text"
-                name="title"
-                placeholder="Task Title"
-                value={formData.title}
-                onChange={handleChange}
-              />
+            <div className="mb-8">
+
+              <h1 className="text-4xl font-bold text-slate-800">
+                Edit Task
+              </h1>
+
+              <p className="text-slate-500 mt-2">
+                Update your task information.
+              </p>
+
             </div>
 
-            <div className="mb-5">
-              <textarea
-                name="description"
-                placeholder="Task Description"
-                value={formData.description}
-                onChange={handleChange}
-                className="w-full border rounded-lg p-4 h-32"
-              />
-            </div>
-
-            <div className="mb-5">
-              <Input
-                type="date"
-                name="dueDate"
-                value={formData.dueDate}
-                onChange={handleChange}
-              />
-            </div>
-
-            <div className="mb-6">
-              <select
-                name="status"
-                value={formData.status}
-                onChange={handleChange}
-                className="w-full border rounded-lg p-3"
-              >
-                <option value="Pending">Pending</option>
-                <option value="In Progress">In Progress</option>
-                <option value="Completed">Completed</option>
-              </select>
-            </div>
-
-            <Button
-              type="submit"
-              disabled={loading}
+            <form
+              onSubmit={handleSubmit}
+              className="bg-white rounded-3xl shadow-xl p-10 max-w-3xl"
             >
-              {loading
-                ? "Updating..."
-                : "Update Task"}
-            </Button>
 
-          </form>
+              <div className="mb-6">
 
-        </main>
+                <Input
+                  type="text"
+                  name="title"
+                  placeholder="Task Title"
+                  value={formData.title}
+                  onChange={handleChange}
+                />
+
+              </div>
+
+              <div className="mb-6">
+
+                <textarea
+                  name="description"
+                  placeholder="Task Description"
+                  value={formData.description}
+                  onChange={handleChange}
+                  className="w-full h-40 rounded-2xl border border-slate-200 p-5 outline-none focus:ring-4 focus:ring-indigo-100 focus:border-indigo-500 duration-300 resize-none"
+                />
+
+              </div>
+
+              <div className="grid md:grid-cols-2 gap-6 mb-6">
+
+                <Input
+                  type="date"
+                  name="dueDate"
+                  value={formData.dueDate}
+                  onChange={handleChange}
+                />
+
+                <select
+                  name="priority"
+                  value={formData.priority}
+                  onChange={handleChange}
+                  className="w-full h-14 rounded-2xl border border-slate-200 px-5 outline-none focus:ring-4 focus:ring-indigo-100"
+                >
+                  <option value="Low">
+                    🟢 Low Priority
+                  </option>
+
+                  <option value="Medium">
+                    🟡 Medium Priority
+                  </option>
+
+                  <option value="High">
+                    🔴 High Priority
+                  </option>
+
+                </select>
+
+              </div>
+
+              <div className="grid md:grid-cols-2 gap-6 mb-8">
+
+                <select
+                  name="category"
+                  value={formData.category}
+                  onChange={handleChange}
+                  className="w-full h-14 rounded-2xl border border-slate-200 px-5 outline-none focus:ring-4 focus:ring-indigo-100"
+                >
+                  <option value="Work">
+                    💼 Work
+                  </option>
+
+                  <option value="Personal">
+                    🏠 Personal
+                  </option>
+
+                  <option value="Study">
+                    📚 Study
+                  </option>
+
+                </select>
+
+                <select
+                  name="status"
+                  value={formData.status}
+                  onChange={handleChange}
+                  className="w-full h-14 rounded-2xl border border-slate-200 px-5 outline-none focus:ring-4 focus:ring-indigo-100"
+                >
+                  <option value="Pending">
+                    Pending
+                  </option>
+
+                  <option value="In Progress">
+                    In Progress
+                  </option>
+
+                  <option value="Completed">
+                    Completed
+                  </option>
+
+                </select>
+
+              </div>
+
+              <Button
+                type="submit"
+                disabled={loading}
+                className="w-full"
+              >
+                {loading ? "Updating Task..." : "Save Changes 💾"}
+              </Button>
+
+            </form>
+
+          </main>
+
+        </div>
 
       </div>
 
-    </div>
+    </PageWrapper>
+
   );
 }
 

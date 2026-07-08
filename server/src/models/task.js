@@ -17,6 +17,18 @@ const taskSchema = new mongoose.Schema(
       default: "Pending",
     },
 
+    priority: {
+      type: String,
+      enum: ["Low", "Medium", "High"],
+      default: "Medium",
+    },
+
+    category: {
+      type: String,
+      enum: ["Work", "Personal", "Study"],
+      default: "Work",
+    },
+
     dueDate: {
       type: Date,
     },

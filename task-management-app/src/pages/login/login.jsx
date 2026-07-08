@@ -1,12 +1,11 @@
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import { FaTasks } from "react-icons/fa";
 import toast from "react-hot-toast";
+import { FaEnvelope, FaLock } from "react-icons/fa";
 
-import Card from "../../components/card/card";
+import AuthLayout from "../../layouts/AuthLayout";
 import Input from "../../components/input/input";
 import Button from "../../components/button/button";
-import AuthLayout from "../../layouts/authlayout";
 
 import { loginUser } from "../../services/auth/auth.service";
 
@@ -45,11 +44,22 @@ function Login() {
         JSON.stringify(res.data.data.user)
       );
 
+      localStorage.setItem(
+        "username",
+        res.data.data.user.name
+      );
+
       toast.success("Login Successful");
 
       navigate("/dashboard");
 
     } catch (err) {
+
+      console.log(err);
+
+      console.log("Response :", err.response);
+
+      console.log("Data :", err.response?.data);
 
       toast.error(
         err.response?.data?.message || "Login Failed"
@@ -63,88 +73,106 @@ function Login() {
   };
 
   return (
+
     <AuthLayout>
-      <Card>
 
-        {/* Logo */}
-        <div className="flex justify-center mb-5">
-          <div className="bg-blue-600 text-white p-4 rounded-full">
-            <FaTasks size={35} />
-          </div>
-        </div>
+      <div className="w-full max-w-md bg-white rounded-3xl shadow-2xl p-10">
 
-        {/* Heading */}
-        <h1 className="text-3xl font-bold text-center">
-          Task Manager
+        <h1 className="text-4xl font-bold text-slate-800">
+          Welcome Back 👋
         </h1>
 
-        {/* Description */}
-        <p className="text-gray-500 text-center mt-2 mb-6">
-          Welcome back! Please login to continue.
+        <p className="text-slate-500 mt-2">
+          Login to continue your productivity.
         </p>
 
-        {/* Form */}
-        <form onSubmit={handleSubmit}>
+        <form
+          onSubmit={handleSubmit}
+          className="mt-10 space-y-6"
+        >
 
-          <div className="mb-4">
+          <div className="relative">
+
+            <FaEnvelope className="absolute left-4 top-4 text-slate-400" />
+
             <Input
               type="email"
               name="email"
-              placeholder="Enter your email"
+              placeholder="Email Address"
               value={formData.email}
               onChange={handleChange}
+              className="pl-12 h-14 rounded-xl"
             />
+
           </div>
 
-          <div className="mb-4">
+          <div className="relative">
+
+            <FaLock className="absolute left-4 top-4 text-slate-400" />
+
             <Input
               type="password"
               name="password"
-              placeholder="Enter your password"
+              placeholder="Password"
               value={formData.password}
               onChange={handleChange}
+              className="pl-12 h-14 rounded-xl"
             />
+
           </div>
 
-          <div className="flex justify-between items-center mb-5">
+          <div className="flex justify-between text-sm">
 
             <label className="flex items-center gap-2">
+
               <input type="checkbox" />
-              Remember Me
+
+              Remember me
+
             </label>
 
-            <a
-              href="#"
-              className="text-blue-600 hover:underline"
+            <button
+              type="button"
+              className="text-indigo-600"
             >
               Forgot Password?
-            </a>
+            </button>
 
           </div>
 
           <Button
             type="submit"
             disabled={loading}
+            className="w-full h-14 rounded-xl bg-gradient-to-r from-indigo-600 to-violet-600 text-white font-semibold hover:opacity-90"
           >
-            {loading ? "Logging In..." : "Login"}
+
+            {loading
+              ? "Signing In..."
+              : "Sign In"}
+
           </Button>
 
         </form>
 
-        <p className="text-center mt-6">
-          Don't have an account?
+        <div className="text-center mt-8">
+
+          <span className="text-slate-500">
+            Don't have an account?
+          </span>
 
           <Link
             to="/register"
-            className="text-blue-600 font-semibold ml-1"
+            className="ml-2 font-semibold text-indigo-600"
           >
             Register
           </Link>
 
-        </p>
+        </div>
 
-      </Card>
+      </div>
+
     </AuthLayout>
+
   );
 }
 

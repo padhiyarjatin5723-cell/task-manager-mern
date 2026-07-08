@@ -1,5 +1,7 @@
 import api from "../api";
 
-export const getDashboardStats = async () => {
-  return await api.get("/dashboard");
-};
+export const getDashboardStats = () =>
+  api.get("/dashboard/stats");
+
+export const getDashboardTasks = () =>
+  api.get("/tasks");
