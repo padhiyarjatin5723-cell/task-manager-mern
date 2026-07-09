@@ -8,15 +8,22 @@ import {
 
 import { Menu } from "@headlessui/react";
 import { useNavigate } from "react-router-dom";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 
 import ProfileModal from "../profile/ProfileModal";
+import { globalSearch } from "../../services/task/task.service";
 
 function Navbar() {
-
   const navigate = useNavigate();
 
   const [openProfile, setOpenProfile] = useState(false);
+
+  const [query, setQuery] = useState("");
+
+  const [results, setResults] = useState({
+    tasks: [],
+    projects: [],
+  });
 
   const username =
     localStorage.getItem("username") || "Jatin";
@@ -24,15 +31,34 @@ function Navbar() {
   const email =
     localStorage.getItem("email") || "";
 
-  const logout = () => {
+  useEffect(() => {
+    if (!query.trim()) {
+      setResults({
+        tasks: [],
+        projects: [],
+      });
+      return;
+    }
 
+    const timer = setTimeout(async () => {
+      try {
+        const res = await globalSearch(query);
+        setResults(res.data);
+      } catch (err) {
+        console.log(err);
+      }
+    }, 300);
+
+    return () => clearTimeout(timer);
+  }, [query]);
+
+  const logout = () => {
     localStorage.removeItem("token");
     localStorage.removeItem("user");
     localStorage.removeItem("username");
     localStorage.removeItem("email");
 
     navigate("/login");
-
   };
 
   const hour = new Date().getHours();
@@ -46,7 +72,6 @@ function Navbar() {
 
   return (
     <>
-
       <ProfileModal
         open={openProfile}
         setOpen={setOpenProfile}
@@ -67,19 +92,14 @@ function Navbar() {
               {greeting},
 
               <span className="text-violet-400">
-
                 {" "}
-
                 {username}
-
               </span>
 
             </h1>
 
             <p className="mt-2 text-slate-400">
-
               Stay focused and finish what matters.
-
             </p>
 
           </div>
@@ -94,9 +114,92 @@ function Navbar() {
               />
 
               <input
-                placeholder="Search tasks..."
+                value={query}
+                onChange={(e) =>
+                  setQuery(e.target.value)
+                }
+                placeholder="Search tasks & projects..."
                 className="w-80 rounded-2xl border border-white/10 bg-white/5 py-3 pl-12 pr-20 text-white outline-none placeholder:text-slate-500 focus:border-violet-500"
               />
+
+              {query && (
+
+                <div className="absolute left-0 right-0 top-16 z-50 max-h-80 overflow-y-auto rounded-2xl border border-white/10 bg-[#151823] p-2 shadow-2xl">
+
+                  {results.tasks.length === 0 &&
+                    results.projects.length === 0 && (
+
+                    <p className="px-3 py-3 text-slate-400">
+                      No results found
+                    </p>
+
+                  )}
+
+                  {results.tasks.length > 0 && (
+
+                    <>
+
+                      <p className="px-3 py-2 text-xs uppercase text-slate-500">
+                        Tasks
+                      </p>
+
+                      {results.tasks.map((task) => (
+
+                        <button
+                          key={task._id}
+                          onClick={() => {
+
+                            navigate("/tasks");
+                            setQuery("");
+
+                          }}
+                          className="block w-full rounded-xl px-3 py-3 text-left text-white transition hover:bg-white/5"
+                        >
+
+                          📋 {task.title}
+
+                        </button>
+
+                      ))}
+
+                    </>
+
+                  )}
+
+                  {results.projects.length > 0 && (
+
+                    <>
+
+                      <p className="mt-2 px-3 py-2 text-xs uppercase text-slate-500">
+                        Projects
+                      </p>
+
+                      {results.projects.map((project) => (
+
+                        <button
+                          key={project._id}
+                          onClick={() => {
+
+                            navigate("/projects");
+                            setQuery("");
+
+                          }}
+                          className="block w-full rounded-xl px-3 py-3 text-left text-white transition hover:bg-white/5"
+                        >
+
+                          📁 {project.name}
+
+                        </button>
+
+                      ))}
+
+                    </>
+
+                  )}
+
+                </div>
+
+              )}
 
             </div>
 
@@ -128,15 +231,11 @@ function Navbar() {
                 <div className="text-left">
 
                   <p className="font-semibold">
-
                     {username}
-
                   </p>
 
                   <p className="text-xs text-slate-400">
-
                     {email}
-
                   </p>
 
                 </div>
@@ -152,7 +251,9 @@ function Navbar() {
                   {() => (
 
                     <button
-                      onClick={() => setOpenProfile(true)}
+                      onClick={() =>
+                        setOpenProfile(true)
+                      }
                       className="w-full rounded-xl px-4 py-3 text-left text-white transition hover:bg-white/5"
                     >
 
@@ -169,7 +270,9 @@ function Navbar() {
                   {() => (
 
                     <button
-                      onClick={() => setOpenProfile(true)}
+                      onClick={() =>
+                        setOpenProfile(true)
+                      }
                       className="w-full rounded-xl px-4 py-3 text-left text-white transition hover:bg-white/5"
                     >
 
@@ -213,9 +316,7 @@ function Navbar() {
       </header>
 
     </>
-
   );
-
 }
 
 export default Navbar;
