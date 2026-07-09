@@ -7,7 +7,7 @@ import {
   FaLock,
 } from "react-icons/fa";
 
-import AuthLayout from "../../layouts/TempLayout";
+import AuthLayout from "../../layouts/AuthLayout";
 import Input from "../../components/input/input";
 import Button from "../../components/button/button";
 
