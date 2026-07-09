@@ -3,7 +3,7 @@ import { Link, useNavigate } from "react-router-dom";
 import toast from "react-hot-toast";
 import { FaEnvelope, FaLock } from "react-icons/fa";
 
-import AuthLayout from "../../layouts/AuthLayout";
+import AuthLayout from "../../layouts/TempLayout";
 import Input from "../../components/input/input";
 import Button from "../../components/button/button";
 
