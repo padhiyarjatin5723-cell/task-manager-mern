@@ -7,32 +7,26 @@ export const globalSearchController = async (
 ) => {
   try {
 
-    const query =
-      req.query.query || "";
+    const query = req.query.query || "";
 
-    const regex = new RegExp(
-      query,
-      "i"
-    );
+    const regex = new RegExp(query, "i");
 
-    const tasks =
-      await Task.find({
-        user: req.user.id,
-        $or: [
-          { title: regex },
-          { description: regex },
-        ],
-      })
-        .limit(5)
-        .select("title status");
+    const tasks = await Task.find({
+      user: req.user.id,
+      $or: [
+        { title: regex },
+        { description: regex },
+      ],
+    })
+      .limit(5)
+      .select("title status");
 
-    const projects =
-      await Project.find({
-        user: req.user.id,
-        name: regex,
-      })
-        .limit(5)
-        .select("name color");
+    const projects = await Project.find({
+      user: req.user.id,
+      name: regex,
+    })
+      .limit(5)
+      .select("name color");
 
     res.json({
       tasks,
