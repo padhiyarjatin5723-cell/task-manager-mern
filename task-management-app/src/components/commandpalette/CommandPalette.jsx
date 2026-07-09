@@ -1,88 +1,190 @@
-import { useState } from "react";
-import { useHotkeys } from "react-hotkeys-hook";
-import { Search, X } from "lucide-react";
+import { Dialog } from "@headlessui/react";
+import { Search } from "lucide-react";
+import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 
+import { globalSearch } from "../../services/search/search.service";
+
 function CommandPalette() {
+
   const navigate = useNavigate();
 
   const [open, setOpen] = useState(false);
 
-  useHotkeys("ctrl+k", (e) => {
-    e.preventDefault();
-    setOpen(true);
+  const [query, setQuery] = useState("");
+
+  const [result, setResult] = useState({
+    tasks: [],
+    projects: [],
   });
 
-  const actions = [
-    {
-      title: "Dashboard",
-      action: () => navigate("/dashboard"),
-    },
-    {
-      title: "Tasks",
-      action: () => navigate("/tasks"),
-    },
-    {
-      title: "Create Task",
-      action: () => navigate("/create-task"),
-    },
-    {
-      title: "Settings",
-      action: () => navigate("/settings"),
-    },
-  ];
+  useEffect(() => {
 
-  if (!open) return null;
+    const down = (e) => {
+
+      if (e.ctrlKey && e.key === "k") {
+
+        e.preventDefault();
+
+        setOpen(true);
+
+      }
+
+      if (e.key === "Escape") {
+
+        setOpen(false);
+
+      }
+
+    };
+
+    window.addEventListener(
+      "keydown",
+      down
+    );
+
+    return () =>
+      window.removeEventListener(
+        "keydown",
+        down
+      );
+
+  }, []);
+
+  useEffect(() => {
+
+    if (!query.trim()) {
+
+      setResult({
+        tasks: [],
+        projects: [],
+      });
+
+      return;
+
+    }
+
+    const timer = setTimeout(async () => {
+
+      try {
+
+        const res =
+          await globalSearch(query);
+
+        setResult(res.data);
+
+      } catch {}
+
+    }, 300);
+
+    return () =>
+      clearTimeout(timer);
+
+  }, [query]);
 
   return (
-    <div className="fixed inset-0 z-[999] flex items-start justify-center bg-black/50 pt-32 backdrop-blur-sm">
 
-      <div className="w-full max-w-2xl overflow-hidden rounded-3xl border border-white/10 bg-[#151515] shadow-2xl">
+    <Dialog
+      open={open}
+      onClose={() => setOpen(false)}
+      className="relative z-[100]"
+    >
 
-        <div className="flex items-center border-b border-white/10 px-6 py-5">
+      <div className="fixed inset-0 bg-black/70 backdrop-blur-sm" />
 
-          <Search size={20} className="text-slate-400" />
+      <div className="fixed inset-0 flex justify-center pt-24">
 
-          <input
-            autoFocus
-            placeholder="Search anything..."
-            className="ml-4 flex-1 bg-transparent text-white outline-none placeholder:text-slate-500"
-          />
+        <Dialog.Panel className="w-full max-w-2xl rounded-3xl border border-white/10 bg-[#151823] p-6">
 
-          <button
-            onClick={() => setOpen(false)}
-            className="rounded-xl p-2 hover:bg-white/10"
-          >
-            <X className="text-slate-400" />
-          </button>
+          <div className="flex items-center gap-3 rounded-2xl border border-white/10 bg-white/5 px-4">
 
-        </div>
+            <Search
+              size={20}
+              className="text-slate-400"
+            />
 
-        <div className="p-3">
+            <input
+              autoFocus
+              value={query}
+              onChange={(e) =>
+                setQuery(e.target.value)
+              }
+              placeholder="Search Tasks & Projects..."
+              className="w-full bg-transparent py-4 text-white outline-none"
+            />
 
-          {actions.map((item) => (
+          </div>
 
-            <button
-              key={item.title}
-              onClick={() => {
-                item.action();
-                setOpen(false);
-              }}
-              className="mb-2 flex w-full rounded-2xl px-5 py-4 text-left text-white transition hover:bg-violet-600"
-            >
+          <div className="mt-6 space-y-5">
 
-              {item.title}
+            {
 
-            </button>
+              result.tasks.map((task) => (
 
-          ))}
+                <button
+                  key={task._id}
+                  onClick={() => {
 
-        </div>
+                    navigate("/tasks");
+
+                    setOpen(false);
+
+                  }}
+                  className="block w-full rounded-xl bg-white/5 p-4 text-left text-white hover:bg-violet-600"
+                >
+
+                  <p className="font-semibold">
+
+                    {task.title}
+
+                  </p>
+
+                  <p className="text-sm text-slate-400">
+
+                    {task.status}
+
+                  </p>
+
+                </button>
+
+              ))
+
+            }
+
+            {
+
+              result.projects.map((project) => (
+
+                <button
+                  key={project._id}
+                  onClick={() => {
+
+                    navigate("/projects");
+
+                    setOpen(false);
+
+                  }}
+                  className="block w-full rounded-xl bg-white/5 p-4 text-left text-white hover:bg-violet-600"
+                >
+
+                  {project.name}
+
+                </button>
+
+              ))
+
+            }
+
+          </div>
+
+        </Dialog.Panel>
 
       </div>
 
-    </div>
+    </Dialog>
+
   );
+
 }
 
 export default CommandPalette;

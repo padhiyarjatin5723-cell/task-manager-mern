@@ -10,9 +10,7 @@ export const getProfileController = async (
 ) => {
   try {
 
-    const user = await getProfile(
-      req.user.id
-    );
+    const user = await getProfile(req.user.id);
 
     res.json(user);
 
@@ -53,13 +51,14 @@ export const changePasswordController = async (
 ) => {
   try {
 
-    const result =
-      await changePassword(
-        req.user.id,
-        req.body
-      );
+    await changePassword(
+      req.user.id,
+      req.body
+    );
 
-    res.json(result);
+    res.json({
+      message: "Password updated successfully",
+    });
 
   } catch (err) {
 

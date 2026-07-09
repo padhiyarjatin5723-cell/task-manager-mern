@@ -3,9 +3,9 @@ import bcrypt from "bcryptjs";
 import {
   getProfileRepo,
   updateProfileRepo,
-  getUserWithPasswordRepo,
-  updatePasswordRepo,
 } from "../repositories/user.repository.js";
+
+import User from "../models/user.js";
 
 export const getProfile = async (id) => {
   return await getProfileRepo(id);
@@ -31,39 +31,30 @@ export const changePassword = async (
     newPassword,
   } = body;
 
-  const user =
-    await getUserWithPasswordRepo(id);
+  const user = await User.findById(id);
 
   if (!user) {
     throw new Error("User not found");
   }
 
-  const isMatch =
-    await bcrypt.compare(
-      currentPassword,
-      user.password
-    );
-
-  if (!isMatch) {
-    throw new Error(
-      "Current password is incorrect"
-    );
-  }
-
-  const hashedPassword =
-    await bcrypt.hash(
-      newPassword,
-      10
-    );
-
-  await updatePasswordRepo(
-    id,
-    hashedPassword
+  const isMatch = await bcrypt.compare(
+    currentPassword,
+    user.password
   );
 
-  return {
-    message:
-      "Password updated successfully",
-  };
+  if (!isMatch) {
+    throw new Error("Current password is incorrect");
+  }
+
+  const hashedPassword = await bcrypt.hash(
+    newPassword,
+    10
+  );
+
+  user.password = hashedPassword;
+
+  await user.save();
+
+  return true;
 
 };
