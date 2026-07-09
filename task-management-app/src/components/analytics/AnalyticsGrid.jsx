@@ -2,33 +2,33 @@ import {
   CheckCircle2,
   Clock3,
   ListTodo,
-  TrendingUp,
+  LoaderCircle,
 } from "lucide-react";
 
-const cards = [
-  {
-    title: "Tasks Created",
-    value: "124",
-    icon: <ListTodo size={28} />,
-  },
-  {
-    title: "Completed",
-    value: "98",
-    icon: <CheckCircle2 size={28} />,
-  },
-  {
-    title: "Pending",
-    value: "18",
-    icon: <Clock3 size={28} />,
-  },
-  {
-    title: "Efficiency",
-    value: "92%",
-    icon: <TrendingUp size={28} />,
-  },
-];
+function AnalyticsGrid({ analytics }) {
+  const cards = [
+    {
+      title: "Total Tasks",
+      value: analytics.total,
+      icon: <ListTodo size={30} />,
+    },
+    {
+      title: "Completed",
+      value: analytics.completed,
+      icon: <CheckCircle2 size={30} />,
+    },
+    {
+      title: "Pending",
+      value: analytics.pending,
+      icon: <Clock3 size={30} />,
+    },
+    {
+      title: "In Progress",
+      value: analytics.inProgress,
+      icon: <LoaderCircle size={30} />,
+    },
+  ];
 
-function AnalyticsGrid() {
   return (
     <div className="grid gap-6 md:grid-cols-2 xl:grid-cols-4">
 
@@ -36,10 +36,10 @@ function AnalyticsGrid() {
 
         <div
           key={card.title}
-          className="rounded-[30px] border border-white/10 bg-[#151823]/90 p-7"
+          className="rounded-[28px] border border-white/10 bg-[#151823] p-7"
         >
 
-          <div className="flex justify-between items-center">
+          <div className="flex items-center justify-between">
 
             <div>
 
@@ -47,13 +47,13 @@ function AnalyticsGrid() {
                 {card.title}
               </p>
 
-              <h2 className="mt-3 text-5xl font-black text-white">
+              <h2 className="mt-4 text-5xl font-black text-white">
                 {card.value}
               </h2>
 
             </div>
 
-            <div className="rounded-2xl bg-violet-600/20 p-4 text-violet-300">
+            <div className="rounded-2xl bg-violet-600/20 p-4 text-violet-400">
 
               {card.icon}
 

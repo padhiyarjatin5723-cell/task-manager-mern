@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 
 import Loader from "../../components/loader/loader";
-import AppLayout from "../../components/layout/AppLayout";
+import AppLayout from "../../layouts/AppLayout";
 import ActivityCard from "../../components/dashboard/ActivityCard";
 import DashboardHero from "../../components/dashboard/DashboardHero";
 import StatsGrid from "../../components/dashboard/StatsGrid";
@@ -49,36 +49,34 @@ function Dashboard() {
   }
 
   return (
-    <AppLayout>
+  <AppLayout>
 
-      <DashboardHero />
+    <DashboardHero />
 
-      <div className="mt-8">
+    <div className="mt-8">
+      <StatsGrid
+        stats={stats}
+      />
+    </div>
 
-        <StatsGrid
+    <div className="grid xl:grid-cols-3 gap-8 mt-8">
+
+      <div className="xl:col-span-2">
+
+        <ActivityCard
           stats={stats}
         />
 
       </div>
 
-      <div className="grid xl:grid-cols-3 gap-8 mt-8">
+      <RecentTasks
+        tasks={tasks}
+      />
 
-        <div className="xl:col-span-2">
+    </div>
 
-          <ActivityCard
-            stats={stats}
-          />
-
-        </div>
-
-        <RecentTasks
-          tasks={tasks}
-        />
-
-      </div>
-
-    </AppLayout>
-  );
+  </AppLayout>
+);
 }
 
 export default Dashboard;

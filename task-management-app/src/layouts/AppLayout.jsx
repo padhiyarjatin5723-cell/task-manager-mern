@@ -1,11 +1,12 @@
-import Navbar from "../navbar/navbar";
-import Sidebar from "../sidebar/sidebar";
-import PageWrapper from "../PageWrapper/PageWrapper";
+import Navbar from "../components/navbar/navbar";
+import Sidebar from "../components/sidebar/sidebar";
+import FloatingActionButton from "../components/FloatingActionButton";
+import PageWrapper from "../components/PageWrapper/PageWrapper";
 
 function AppLayout({ children }) {
   return (
     <PageWrapper>
-      <div className="min-h-screen bg-gradient-to-br from-slate-100 via-slate-50 to-indigo-50">
+      <div className="min-h-screen bg-gradient-to-br from-[#0B1120] via-[#111827] to-[#1E1B4B]">
 
         <Navbar />
 
@@ -18,6 +19,8 @@ function AppLayout({ children }) {
           </main>
 
         </div>
+
+        <FloatingActionButton />
 
       </div>
     </PageWrapper>

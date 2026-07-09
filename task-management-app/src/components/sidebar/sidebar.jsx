@@ -1,48 +1,100 @@
-import AppLayout from "../../components/layout/AppLayout";
+import { NavLink } from "react-router-dom";
+import {
+  LayoutDashboard,
+  CheckSquare,
+  PlusCircle,
+  BarChart3,
+  KanbanSquare,
+  FolderKanban,
+} from "lucide-react";
 
-import AnalyticsGrid from "../../components/analytics/AnalyticsGrid";
-import ProductivityCard from "../../components/analytics/ProductivityCard";
-import WeeklyChart from "../../components/analytics/WeeklyChart";
-import StatusPieChart from "../../components/analytics/StatusPieChart";
+const navItems = [
+  {
+    label: "Dashboard",
+    path: "/dashboard",
+    icon: LayoutDashboard,
+  },
+  {
+    label: "Tasks",
+    path: "/tasks",
+    icon: CheckSquare,
+  },
+  {
+    label: "Create Task",
+    path: "/create-task",
+    icon: PlusCircle,
+  },
+  {
+    label: "Board",
+    path: "/board",
+    icon: KanbanSquare,
+  },
+  {
+    label: "Projects",
+    path: "/projects",
+    icon: FolderKanban,
+  },
+  {
+    label: "Analytics",
+    path: "/analytics",
+    icon: BarChart3,
+  },
+];
 
-function Analytics() {
+function Sidebar() {
   return (
-    <AppLayout>
+    <aside
+      className="
+        w-64
+        min-h-screen
+        border-r
+        border-white/10
+        bg-[#151823]/90
+        backdrop-blur-3xl
+        px-5
+        py-8
+      "
+    >
+      <nav className="space-y-3">
 
-      <div className="mb-10">
+        {navItems.map((item) => {
+          const Icon = item.icon;
 
-        <h1 className="text-5xl font-black text-white">
-          Analytics
-        </h1>
+          return (
+            <NavLink
+              key={item.path}
+              to={item.path}
+              className={({ isActive }) =>
+                `
+                flex
+                items-center
+                gap-3
+                rounded-2xl
+                px-4
+                py-3
+                transition-all
+                duration-300
+                ${
+                  isActive
+                    ? "bg-gradient-to-r from-violet-600 to-indigo-600 text-white shadow-lg shadow-violet-900/40"
+                    : "text-slate-400 hover:bg-white/5 hover:text-white"
+                }
+                `
+              }
+            >
+              <Icon size={20} />
 
-        <p className="mt-3 text-slate-400">
-          Track productivity, task completion and weekly performance.
-        </p>
+              <span className="font-medium">
+                {item.label}
+              </span>
 
-      </div>
+            </NavLink>
+          );
+        })}
 
-      <AnalyticsGrid />
-
-      <div className="mt-8 grid gap-8 xl:grid-cols-3">
-
-        <div className="xl:col-span-2">
-
-          <WeeklyChart />
-
-        </div>
-
-        <StatusPieChart />
-
-      </div>
-
-      <div className="mt-8">
-
-        <ProductivityCard />
-
-      </div>
-
-    </AppLayout>
+      </nav>
+    </aside>
   );
 }
 
-export default Analytics;
+export default Sidebar;

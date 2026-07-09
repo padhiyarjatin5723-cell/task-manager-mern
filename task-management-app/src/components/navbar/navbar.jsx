@@ -33,9 +33,9 @@ function Navbar() {
       : "Good Evening";
 
   return (
-    <header className="sticky top-0 z-50">
+    <header className="sticky top-0 z-50 border-b border-white/10 bg-[#151823]/80 backdrop-blur-2xl">
 
-      <div className="mx-auto flex max-w-[1700px] items-center justify-between px-8 py-6">
+      <div className="flex items-center justify-between px-8 py-5">
 
         <div>
 
@@ -76,13 +76,13 @@ function Navbar() {
 
           </div>
 
-          <button className="flex h-12 w-12 items-center justify-center rounded-2xl border border-white/10 bg-white/5 text-slate-300 transition hover:bg-violet-600 hover:text-white">
+          <button className="flex h-12 w-12 items-center justify-center rounded-2xl border border-white/10 bg-white/5 text-slate-300 hover:bg-violet-600 hover:text-white transition">
 
             <Bell size={20} />
 
           </button>
 
-          <button className="flex h-12 w-12 items-center justify-center rounded-2xl border border-white/10 bg-white/5 text-slate-300 transition hover:bg-violet-600 hover:text-white">
+          <button className="flex h-12 w-12 items-center justify-center rounded-2xl border border-white/10 bg-white/5 text-slate-300 hover:bg-violet-600 hover:text-white transition">
 
             <MoonStar size={20} />
 
@@ -114,7 +114,7 @@ function Navbar() {
 
             </Menu.Button>
 
-            <Menu.Items className="absolute right-0 mt-3 w-52 rounded-2xl border border-white/10 bg-[#141414] p-2 shadow-2xl">
+            <Menu.Items className="absolute right-0 mt-3 w-52 rounded-2xl border border-white/10 bg-[#151823] p-2 shadow-2xl">
 
               <Menu.Item>
 
@@ -122,7 +122,7 @@ function Navbar() {
 
                   <button
                     onClick={logout}
-                    className="flex w-full items-center gap-3 rounded-xl px-4 py-3 text-red-400 transition hover:bg-red-500/10"
+                    className="flex w-full items-center gap-3 rounded-xl px-4 py-3 text-red-400 hover:bg-red-500/10 transition"
                   >
 
                     <LogOut size={18} />

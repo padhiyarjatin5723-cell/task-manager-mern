@@ -1,4 +1,4 @@
-import { ArrowRight } from "lucide-react";
+import { ArrowRight, Sparkles } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 
 function DashboardHero() {
@@ -21,13 +21,15 @@ function DashboardHero() {
 
       <div className="absolute -bottom-20 left-20 h-60 w-60 rounded-full bg-cyan-500/20 blur-[120px]" />
 
-      <div className="relative flex flex-col lg:flex-row lg:items-center lg:justify-between">
+      <div className="relative flex flex-col justify-between gap-10 lg:flex-row lg:items-center">
 
         <div>
 
-          <span className="rounded-full border border-violet-500/20 bg-violet-500/10 px-5 py-2 text-sm text-violet-300">
+          <span className="inline-flex items-center gap-2 rounded-full border border-violet-500/20 bg-violet-500/10 px-5 py-2 text-sm text-violet-300">
 
-            🚀 TaskFlow Workspace
+            <Sparkles size={16} />
+
+            TaskFlow Workspace
 
           </span>
 
@@ -43,8 +45,8 @@ function DashboardHero() {
 
           <p className="mt-6 max-w-2xl text-lg leading-8 text-slate-400">
 
-            Stay focused, manage deadlines, and finish your work faster with a
-            clean productivity workspace.
+            Stay focused, manage deadlines, and finish your work faster with
+            your smart productivity dashboard.
 
           </p>
 
@@ -52,7 +54,7 @@ function DashboardHero() {
 
         <button
           onClick={() => navigate("/create-task")}
-          className="group mt-10 flex items-center gap-3 rounded-3xl bg-gradient-to-r from-violet-600 to-indigo-600 px-8 py-5 text-lg font-bold text-white transition hover:scale-105 lg:mt-0"
+          className="group flex items-center gap-3 rounded-3xl bg-gradient-to-r from-violet-600 to-indigo-600 px-8 py-5 text-lg font-bold text-white transition-all duration-300 hover:scale-105 hover:shadow-[0_20px_50px_rgba(124,58,237,.45)]"
         >
 
           Create Task

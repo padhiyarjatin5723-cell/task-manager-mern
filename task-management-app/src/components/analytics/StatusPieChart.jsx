@@ -4,22 +4,8 @@ import {
   Cell,
   ResponsiveContainer,
   Tooltip,
+  Legend,
 } from "recharts";
-
-const data = [
-  {
-    name: "Completed",
-    value: 48,
-  },
-  {
-    name: "Pending",
-    value: 22,
-  },
-  {
-    name: "In Progress",
-    value: 30,
-  },
-];
 
 const COLORS = [
   "#10b981",
@@ -27,7 +13,22 @@ const COLORS = [
   "#06b6d4",
 ];
 
-function StatusPieChart() {
+function StatusPieChart({ analytics }) {
+  const data = [
+    {
+      name: "Completed",
+      value: analytics.completed,
+    },
+    {
+      name: "Pending",
+      value: analytics.pending,
+    },
+    {
+      name: "In Progress",
+      value: analytics.inProgress,
+    },
+  ];
+
   return (
     <div className="rounded-[30px] border border-white/10 bg-[#151823]/90 p-7">
 
@@ -35,15 +36,20 @@ function StatusPieChart() {
         Task Status
       </h2>
 
+      <p className="mt-2 text-slate-400">
+        Current task distribution
+      </p>
+
       <div className="mt-6 h-[350px]">
 
-        <ResponsiveContainer>
+        <ResponsiveContainer width="100%" height="100%">
 
           <PieChart>
 
             <Pie
               data={data}
               dataKey="value"
+              nameKey="name"
               outerRadius={110}
             >
 
@@ -59,6 +65,8 @@ function StatusPieChart() {
             </Pie>
 
             <Tooltip />
+
+            <Legend />
 
           </PieChart>
 

@@ -3,6 +3,8 @@ import cors from "cors";
 import authRoutes from "./routes/auth.routes.js";
 import taskRoutes from "./routes/task.routes.js";
 import dashboardRoutes from "./routes/dashboard.routes.js";
+import analyticsRoutes from "./routes/analytics.routes.js";
+import projectRoutes from "./routes/project.routes.js";
 
 const app = express();
 
@@ -15,6 +17,10 @@ app.use("/api/auth", authRoutes);
 app.use("/api/tasks", taskRoutes);
 
 app.use("/api/dashboard", dashboardRoutes);
+
+app.use("/api/analytics", analyticsRoutes);
+
+app.use("/api/projects", projectRoutes);
 
 app.get("/", (req, res) => {
   res.send("Task Management API Running...");
