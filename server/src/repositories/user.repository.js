@@ -1,4 +1,4 @@
-import User from "../models/User.js";
+import User from "../models/user.js";
 
 export const getProfileRepo = async (id) => {
   return await User.findById(id).select("-password");
