@@ -1,6 +1,7 @@
 import {
   getProfile,
   updateProfile,
+  changePassword,
 } from "../services/user.service.js";
 
 export const getProfileController = async (
@@ -40,6 +41,29 @@ export const updateProfileController = async (
   } catch (err) {
 
     res.status(500).json({
+      message: err.message,
+    });
+
+  }
+};
+
+export const changePasswordController = async (
+  req,
+  res
+) => {
+  try {
+
+    const result =
+      await changePassword(
+        req.user.id,
+        req.body
+      );
+
+    res.json(result);
+
+  } catch (err) {
+
+    res.status(400).json({
       message: err.message,
     });
 

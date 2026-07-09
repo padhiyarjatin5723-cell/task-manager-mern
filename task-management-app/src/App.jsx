@@ -9,7 +9,6 @@ import EditTask from "./pages/EditTask/EditTask";
 import Analytics from "./pages/analytics/analytics";
 import Board from "./pages/board/board";
 import Projects from "./pages/projects/projects";
-import Settings from "./pages/settings/settings";
 import NotFound from "./pages/notfound/notfound";
 
 import ProtectedRoute from "./components/ProtectedRoute";
@@ -18,29 +17,15 @@ import CommandPalette from "./components/commandpalette/CommandPalette";
 function App() {
   return (
     <BrowserRouter>
-
       <CommandPalette />
 
       <Routes>
+        <Route path="/" element={<Login />} />
 
-        {/* Default */}
-        <Route
-          path="/"
-          element={<Login />}
-        />
+        <Route path="/login" element={<Login />} />
 
-        {/* Auth */}
-        <Route
-          path="/login"
-          element={<Login />}
-        />
+        <Route path="/register" element={<Register />} />
 
-        <Route
-          path="/register"
-          element={<Register />}
-        />
-
-        {/* Dashboard */}
         <Route
           path="/dashboard"
           element={
@@ -50,7 +35,6 @@ function App() {
           }
         />
 
-        {/* Tasks */}
         <Route
           path="/tasks"
           element={
@@ -60,7 +44,6 @@ function App() {
           }
         />
 
-        {/* Create Task */}
         <Route
           path="/create-task"
           element={
@@ -70,7 +53,6 @@ function App() {
           }
         />
 
-        {/* Edit Task */}
         <Route
           path="/edit-task/:id"
           element={
@@ -80,7 +62,6 @@ function App() {
           }
         />
 
-        {/* Board */}
         <Route
           path="/board"
           element={
@@ -90,7 +71,6 @@ function App() {
           }
         />
 
-        {/* Projects */}
         <Route
           path="/projects"
           element={
@@ -100,7 +80,6 @@ function App() {
           }
         />
 
-        {/* Analytics */}
         <Route
           path="/analytics"
           element={
@@ -110,24 +89,8 @@ function App() {
           }
         />
 
-        {/* Settings */}
-        <Route
-          path="/settings"
-          element={
-            <ProtectedRoute>
-              <Settings />
-            </ProtectedRoute>
-          }
-        />
-
-        {/* 404 */}
-        <Route
-          path="*"
-          element={<NotFound />}
-        />
-
+        <Route path="*" element={<NotFound />} />
       </Routes>
-
     </BrowserRouter>
   );
 }

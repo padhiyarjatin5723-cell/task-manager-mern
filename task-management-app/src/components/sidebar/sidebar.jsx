@@ -6,7 +6,6 @@ import {
   BarChart3,
   KanbanSquare,
   FolderKanban,
-  Settings,
 } from "lucide-react";
 
 const navItems = [
@@ -40,11 +39,6 @@ const navItems = [
     path: "/analytics",
     icon: BarChart3,
   },
-  {
-    label: "Settings",
-    path: "/settings",
-    icon: Settings,
-  },
 ];
 
 function Sidebar() {
@@ -62,7 +56,6 @@ function Sidebar() {
       "
     >
       <nav className="space-y-3">
-
         {navItems.map((item) => {
           const Icon = item.icon;
 
@@ -90,14 +83,10 @@ function Sidebar() {
             >
               <Icon size={20} />
 
-              <span className="font-medium">
-                {item.label}
-              </span>
-
+              <span className="font-medium">{item.label}</span>
             </NavLink>
           );
         })}
-
       </nav>
     </aside>
   );

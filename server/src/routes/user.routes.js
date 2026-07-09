@@ -5,6 +5,7 @@ import authMiddleware from "../middlewares/auth.middleware.js";
 import {
   getProfileController,
   updateProfileController,
+  changePasswordController,
 } from "../controllers/user.controller.js";
 
 const router = express.Router();
@@ -19,6 +20,11 @@ router.get(
 router.put(
   "/profile",
   updateProfileController
+);
+
+router.put(
+  "/change-password",
+  changePasswordController
 );
 
 export default router;

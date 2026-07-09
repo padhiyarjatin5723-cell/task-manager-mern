@@ -8,19 +8,31 @@ import {
 
 import { Menu } from "@headlessui/react";
 import { useNavigate } from "react-router-dom";
+import { useState } from "react";
+
+import ProfileModal from "../profile/ProfileModal";
 
 function Navbar() {
+
   const navigate = useNavigate();
+
+  const [openProfile, setOpenProfile] = useState(false);
 
   const username =
     localStorage.getItem("username") || "Jatin";
 
+  const email =
+    localStorage.getItem("email") || "";
+
   const logout = () => {
+
     localStorage.removeItem("token");
     localStorage.removeItem("user");
     localStorage.removeItem("username");
+    localStorage.removeItem("email");
 
     navigate("/login");
+
   };
 
   const hour = new Date().getHours();
@@ -33,118 +45,177 @@ function Navbar() {
       : "Good Evening";
 
   return (
-    <header className="sticky top-0 z-50 border-b border-white/10 bg-[#151823]/80 backdrop-blur-2xl">
+    <>
 
-      <div className="flex items-center justify-between px-8 py-5">
+      <ProfileModal
+        open={openProfile}
+        setOpen={setOpenProfile}
+        user={{
+          username,
+          email,
+        }}
+      />
 
-        <div>
+      <header className="sticky top-0 z-50 border-b border-white/10 bg-[#151823]/80 backdrop-blur-2xl">
 
-          <h1 className="text-4xl font-black tracking-tight text-white">
+        <div className="flex items-center justify-between px-8 py-5">
 
-            {greeting},
+          <div>
 
-            <span className="text-violet-400">
-              {" "}
-              {username}
-            </span>
+            <h1 className="text-4xl font-black tracking-tight text-white">
 
-          </h1>
+              {greeting},
 
-          <p className="mt-2 text-slate-400">
-            Stay focused and finish what matters.
-          </p>
+              <span className="text-violet-400">
 
-        </div>
+                {" "}
 
-        <div className="flex items-center gap-4">
+                {username}
 
-          <div className="relative">
+              </span>
 
-            <Search
-              size={18}
-              className="absolute left-5 top-1/2 -translate-y-1/2 text-slate-500"
-            />
+            </h1>
 
-            <input
-              placeholder="Search tasks..."
-              className="w-80 rounded-2xl border border-white/10 bg-white/5 py-3 pl-12 pr-20 text-white outline-none placeholder:text-slate-500 focus:border-violet-500"
-            />
+            <p className="mt-2 text-slate-400">
 
-            <span className="absolute right-4 top-1/2 -translate-y-1/2 rounded-lg border border-white/10 bg-white/5 px-2 py-1 text-xs text-slate-500">
-              Ctrl K
-            </span>
+              Stay focused and finish what matters.
+
+            </p>
 
           </div>
 
-          <button className="flex h-12 w-12 items-center justify-center rounded-2xl border border-white/10 bg-white/5 text-slate-300 hover:bg-violet-600 hover:text-white transition">
+          <div className="flex items-center gap-4">
 
-            <Bell size={20} />
+            <div className="relative">
 
-          </button>
+              <Search
+                size={18}
+                className="absolute left-5 top-1/2 -translate-y-1/2 text-slate-500"
+              />
 
-          <button className="flex h-12 w-12 items-center justify-center rounded-2xl border border-white/10 bg-white/5 text-slate-300 hover:bg-violet-600 hover:text-white transition">
+              <input
+                placeholder="Search tasks..."
+                className="w-80 rounded-2xl border border-white/10 bg-white/5 py-3 pl-12 pr-20 text-white outline-none placeholder:text-slate-500 focus:border-violet-500"
+              />
 
-            <MoonStar size={20} />
+            </div>
 
-          </button>
+            <button className="flex h-12 w-12 items-center justify-center rounded-2xl border border-white/10 bg-white/5 text-slate-300 transition hover:bg-violet-600 hover:text-white">
 
-          <Menu as="div" className="relative">
+              <Bell size={20} />
 
-            <Menu.Button className="flex items-center gap-4 rounded-2xl border border-white/10 bg-white/5 px-5 py-3 text-white">
+            </button>
 
-              <div className="flex h-12 w-12 items-center justify-center rounded-full bg-gradient-to-br from-violet-600 to-indigo-600 font-bold">
+            <button className="flex h-12 w-12 items-center justify-center rounded-2xl border border-white/10 bg-white/5 text-slate-300 transition hover:bg-violet-600 hover:text-white">
 
-                {username.charAt(0).toUpperCase()}
+              <MoonStar size={20} />
 
-              </div>
+            </button>
 
-              <div className="text-left">
+            <Menu
+              as="div"
+              className="relative"
+            >
 
-                <p className="font-semibold">
-                  {username}
-                </p>
+              <Menu.Button className="flex items-center gap-4 rounded-2xl border border-white/10 bg-white/5 px-5 py-3 text-white">
 
-                <p className="text-xs text-slate-400">
-                  Software Engineer
-                </p>
+                <div className="flex h-12 w-12 items-center justify-center rounded-full bg-gradient-to-br from-violet-600 to-indigo-600 font-bold">
 
-              </div>
+                  {username.charAt(0).toUpperCase()}
 
-              <ChevronDown size={18} />
+                </div>
 
-            </Menu.Button>
+                <div className="text-left">
 
-            <Menu.Items className="absolute right-0 mt-3 w-52 rounded-2xl border border-white/10 bg-[#151823] p-2 shadow-2xl">
+                  <p className="font-semibold">
 
-              <Menu.Item>
+                    {username}
 
-                {() => (
+                  </p>
 
-                  <button
-                    onClick={logout}
-                    className="flex w-full items-center gap-3 rounded-xl px-4 py-3 text-red-400 hover:bg-red-500/10 transition"
-                  >
+                  <p className="text-xs text-slate-400">
 
-                    <LogOut size={18} />
+                    {email}
 
-                    Logout
+                  </p>
 
-                  </button>
+                </div>
 
-                )}
+                <ChevronDown size={18} />
 
-              </Menu.Item>
+              </Menu.Button>
 
-            </Menu.Items>
+              <Menu.Items className="absolute right-0 mt-3 w-56 rounded-2xl border border-white/10 bg-[#151823] p-2 shadow-2xl">
 
-          </Menu>
+                <Menu.Item>
+
+                  {() => (
+
+                    <button
+                      onClick={() => setOpenProfile(true)}
+                      className="w-full rounded-xl px-4 py-3 text-left text-white transition hover:bg-white/5"
+                    >
+
+                      My Profile
+
+                    </button>
+
+                  )}
+
+                </Menu.Item>
+
+                <Menu.Item>
+
+                  {() => (
+
+                    <button
+                      onClick={() => setOpenProfile(true)}
+                      className="w-full rounded-xl px-4 py-3 text-left text-white transition hover:bg-white/5"
+                    >
+
+                      Change Password
+
+                    </button>
+
+                  )}
+
+                </Menu.Item>
+
+                <div className="my-2 border-t border-white/10"></div>
+
+                <Menu.Item>
+
+                  {() => (
+
+                    <button
+                      onClick={logout}
+                      className="flex w-full items-center gap-3 rounded-xl px-4 py-3 text-red-400 transition hover:bg-red-500/10"
+                    >
+
+                      <LogOut size={18} />
+
+                      Logout
+
+                    </button>
+
+                  )}
+
+                </Menu.Item>
+
+              </Menu.Items>
+
+            </Menu>
+
+          </div>
 
         </div>
 
-      </div>
+      </header>
 
-    </header>
+    </>
+
   );
+
 }
 
 export default Navbar;

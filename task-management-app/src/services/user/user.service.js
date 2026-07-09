@@ -10,3 +10,12 @@ export const updateProfile = async (data) => {
     data
   );
 };
+
+export const changePassword = async (
+  data
+) => {
+  return await api.put(
+    "/user/change-password",
+    data
+  );
+};

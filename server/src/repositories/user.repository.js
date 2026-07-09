@@ -16,3 +16,24 @@ export const updateProfileRepo = async (
     }
   ).select("-password");
 };
+
+export const getUserWithPasswordRepo = async (
+  id
+) => {
+  return await User.findById(id);
+};
+
+export const updatePasswordRepo = async (
+  id,
+  password
+) => {
+  return await User.findByIdAndUpdate(
+    id,
+    {
+      password,
+    },
+    {
+      new: true,
+    }
+  );
+};
