@@ -36,7 +36,7 @@ function Analytics() {
 
       <div className="mb-10">
 
-        <h1 className="text-5xl font-black text-white">
+        <h1 className="text-3xl md:text-5xl font-black text-white">
           Analytics
         </h1>
 

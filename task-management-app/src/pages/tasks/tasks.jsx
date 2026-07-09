@@ -92,7 +92,7 @@ function Tasks() {
 
         <div>
 
-          <h1 className="text-5xl font-black text-white">
+          <h1 className="text-3xl md:text-5xl font-black text-white">
             Tasks
           </h1>
 

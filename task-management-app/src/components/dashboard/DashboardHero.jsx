@@ -15,7 +15,7 @@ function DashboardHero() {
   else if (hour < 17) greeting = "Good Afternoon";
 
   return (
-    <section className="relative overflow-hidden rounded-[38px] border border-white/10 bg-gradient-to-br from-[#161b33] via-[#191d3f] to-[#24173c] p-10 shadow-[0_25px_80px_rgba(0,0,0,.45)]">
+    <section className="relative overflow-hidden rounded-[38px] border border-white/10 bg-gradient-to-br from-[#161b33] via-[#191d3f] to-[#24173c] p-6 md:p-10 shadow-[0_25px_80px_rgba(0,0,0,.45)]">
 
       <div className="absolute -right-24 -top-24 h-72 w-72 rounded-full bg-violet-600/20 blur-[120px]" />
 
@@ -33,7 +33,7 @@ function DashboardHero() {
 
           </span>
 
-          <h1 className="mt-6 text-6xl font-black leading-tight text-white">
+          <h1 className="mt-6 text-4xl md:text-6xl font-black leading-tight text-white">
 
             {greeting},
 

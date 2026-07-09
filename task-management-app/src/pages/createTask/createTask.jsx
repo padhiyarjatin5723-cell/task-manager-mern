@@ -35,7 +35,6 @@ function CreateTask() {
   const loadProjects = async () => {
     try {
       const res = await getProjects();
-
       setProjects(res.data);
     } catch (err) {
       console.log(err);
@@ -52,32 +51,39 @@ function CreateTask() {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
+    if (!formData.title.trim()) {
+      toast.error("Task title is required");
+      return;
+    }
+
+    if (!formData.project) {
+      toast.error("Please select a project");
+      return;
+    }
+
     try {
       setLoading(true);
 
       await createTask(formData);
 
-      toast.success("Task Created Successfully");
+      toast.success("Task Created Successfully 🚀");
 
       navigate("/tasks");
+    } catch (err) {
+      console.log(err);
 
-    } catch (error) {
-
-      console.log(error);
-
-      toast.error("Failed to Create Task");
-
+      toast.error(
+        err?.response?.data?.message ||
+          "Failed to Create Task"
+      );
     } finally {
-
       setLoading(false);
-
     }
   };
 
   return (
     <PageWrapper>
-
-      <div className="bg-slate-100 min-h-screen">
+      <div className="min-h-screen bg-slate-100">
 
         <Navbar />
 
@@ -93,7 +99,7 @@ function CreateTask() {
                 Create New Task
               </h1>
 
-              <p className="text-slate-500 mt-2">
+              <p className="mt-2 text-slate-500">
                 Add a new task to your workspace.
               </p>
 
@@ -101,7 +107,7 @@ function CreateTask() {
 
             <form
               onSubmit={handleSubmit}
-              className="bg-white rounded-3xl shadow-xl p-10 max-w-3xl"
+              className="max-w-3xl rounded-3xl bg-white p-10 shadow-xl"
             >
 
               <div className="mb-6">
@@ -123,12 +129,12 @@ function CreateTask() {
                   placeholder="Task Description"
                   value={formData.description}
                   onChange={handleChange}
-                  className="w-full h-40 rounded-2xl border border-slate-200 p-5 outline-none focus:ring-4 focus:ring-indigo-100 focus:border-indigo-500 duration-300 resize-none"
+                  className="h-40 w-full resize-none rounded-2xl border border-slate-200 p-5 outline-none duration-300 focus:border-indigo-500 focus:ring-4 focus:ring-indigo-100"
                 />
 
               </div>
 
-              <div className="grid md:grid-cols-2 gap-6 mb-6">
+              <div className="mb-6 grid gap-6 md:grid-cols-2">
 
                 <Input
                   type="date"
@@ -141,8 +147,9 @@ function CreateTask() {
                   name="project"
                   value={formData.project}
                   onChange={handleChange}
-                  className="w-full h-14 rounded-2xl border border-slate-200 px-5 outline-none focus:ring-4 focus:ring-indigo-100"
+                  className="h-14 w-full rounded-2xl border border-slate-200 px-5 outline-none focus:ring-4 focus:ring-indigo-100"
                 >
+
                   <option value="">
                     Select Project
                   </option>
@@ -157,18 +164,20 @@ function CreateTask() {
                     </option>
 
                   ))}
+
                 </select>
 
               </div>
 
-              <div className="grid md:grid-cols-2 gap-6 mb-6">
+              <div className="mb-6 grid gap-6 md:grid-cols-2">
 
                 <select
                   name="priority"
                   value={formData.priority}
                   onChange={handleChange}
-                  className="w-full h-14 rounded-2xl border border-slate-200 px-5 outline-none focus:ring-4 focus:ring-indigo-100"
+                  className="h-14 w-full rounded-2xl border border-slate-200 px-5 outline-none focus:ring-4 focus:ring-indigo-100"
                 >
+
                   <option value="Low">
                     🟢 Low Priority
                   </option>
@@ -183,36 +192,13 @@ function CreateTask() {
 
                 </select>
 
-              </div>
-
-              <div className="grid md:grid-cols-2 gap-6 mb-8">
-
-                <select
-                  name="category"
-                  value={formData.category}
-                  onChange={handleChange}
-                  className="w-full h-14 rounded-2xl border border-slate-200 px-5 outline-none focus:ring-4 focus:ring-indigo-100"
-                >
-                  <option value="Work">
-                    💼 Work
-                  </option>
-
-                  <option value="Personal">
-                    🏠 Personal
-                  </option>
-
-                  <option value="Study">
-                    📚 Study
-                  </option>
-
-                </select>
-
                 <select
                   name="status"
                   value={formData.status}
                   onChange={handleChange}
-                  className="w-full h-14 rounded-2xl border border-slate-200 px-5 outline-none focus:ring-4 focus:ring-indigo-100"
+                  className="h-14 w-full rounded-2xl border border-slate-200 px-5 outline-none focus:ring-4 focus:ring-indigo-100"
                 >
+
                   <option value="Pending">
                     Pending
                   </option>
@@ -229,12 +215,39 @@ function CreateTask() {
 
               </div>
 
+              <div className="mb-8">
+
+                <select
+                  name="category"
+                  value={formData.category}
+                  onChange={handleChange}
+                  className="h-14 w-full rounded-2xl border border-slate-200 px-5 outline-none focus:ring-4 focus:ring-indigo-100"
+                >
+
+                  <option value="Work">
+                    💼 Work
+                  </option>
+
+                  <option value="Personal">
+                    🏠 Personal
+                  </option>
+
+                  <option value="Study">
+                    📚 Study
+                  </option>
+
+                </select>
+
+              </div>
+
               <Button
                 type="submit"
                 disabled={loading}
                 className="w-full"
               >
-                {loading ? "Creating Task..." : "Create Task 🚀"}
+                {loading
+                  ? "Creating Task..."
+                  : "Create Task 🚀"}
               </Button>
 
             </form>
@@ -244,7 +257,6 @@ function CreateTask() {
         </div>
 
       </div>
-
     </PageWrapper>
   );
 }

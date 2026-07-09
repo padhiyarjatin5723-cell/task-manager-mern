@@ -8,7 +8,7 @@ function Board() {
 
       <div className="mb-10">
 
-        <h1 className="text-5xl font-black text-white">
+        <h1 className="text-3xl md:text-5xl font-black text-white">
           Kanban Board
         </h1>
 

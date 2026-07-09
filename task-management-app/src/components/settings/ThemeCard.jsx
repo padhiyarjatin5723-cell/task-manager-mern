@@ -1,9 +1,12 @@
 import { Moon, Sun } from "lucide-react";
+import { useTheme } from "../../context/ThemeContext";
 
-function ThemeCard({
-  theme,
-  setTheme,
-}) {
+function ThemeCard() {
+  const {
+    theme,
+    setTheme,
+  } = useTheme();
+
   return (
     <div className="rounded-[30px] border border-white/10 bg-[#151823]/90 p-8">
 

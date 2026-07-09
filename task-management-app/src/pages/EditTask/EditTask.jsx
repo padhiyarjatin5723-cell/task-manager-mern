@@ -14,7 +14,9 @@ import {
 } from "../../services/task/task.service";
 
 function EditTask() {
+
   const { id } = useParams();
+
   const navigate = useNavigate();
 
   const [loading, setLoading] = useState(false);
@@ -33,7 +35,9 @@ function EditTask() {
   }, []);
 
   const loadTask = async () => {
+
     try {
+
       const res = await getTaskById(id);
 
       setFormData({
@@ -47,13 +51,17 @@ function EditTask() {
         category: res.data.category || "Work",
       });
 
-    } catch (error) {
+    } catch (err) {
 
-      console.log(error);
+      console.log(err);
 
-      toast.error("Failed to Load Task");
+      toast.error(
+        err?.response?.data?.message ||
+        "Failed to Load Task"
+      );
 
     }
+
   };
 
   const handleChange = (e) => {
@@ -69,21 +77,29 @@ function EditTask() {
 
     e.preventDefault();
 
+    if (!formData.title.trim()) {
+      toast.error("Task title is required");
+      return;
+    }
+
     try {
 
       setLoading(true);
 
       await updateTask(id, formData);
 
-      toast.success("Task Updated Successfully");
+      toast.success("Task Updated Successfully ✅");
 
       navigate("/tasks");
 
-    } catch (error) {
+    } catch (err) {
 
-      console.log(error);
+      console.log(err);
 
-      toast.error("Update Failed");
+      toast.error(
+        err?.response?.data?.message ||
+        "Update Failed"
+      );
 
     } finally {
 
@@ -97,7 +113,7 @@ function EditTask() {
 
     <PageWrapper>
 
-      <div className="bg-slate-100 min-h-screen">
+      <div className="min-h-screen bg-slate-100">
 
         <Navbar />
 
@@ -113,7 +129,7 @@ function EditTask() {
                 Edit Task
               </h1>
 
-              <p className="text-slate-500 mt-2">
+              <p className="mt-2 text-slate-500">
                 Update your task information.
               </p>
 
@@ -121,7 +137,7 @@ function EditTask() {
 
             <form
               onSubmit={handleSubmit}
-              className="bg-white rounded-3xl shadow-xl p-10 max-w-3xl"
+              className="max-w-3xl rounded-3xl bg-white p-10 shadow-xl"
             >
 
               <div className="mb-6">
@@ -143,12 +159,12 @@ function EditTask() {
                   placeholder="Task Description"
                   value={formData.description}
                   onChange={handleChange}
-                  className="w-full h-40 rounded-2xl border border-slate-200 p-5 outline-none focus:ring-4 focus:ring-indigo-100 focus:border-indigo-500 duration-300 resize-none"
+                  className="h-40 w-full resize-none rounded-2xl border border-slate-200 p-5 outline-none duration-300 focus:border-indigo-500 focus:ring-4 focus:ring-indigo-100"
                 />
 
               </div>
 
-              <div className="grid md:grid-cols-2 gap-6 mb-6">
+              <div className="mb-6 grid gap-6 md:grid-cols-2">
 
                 <Input
                   type="date"
@@ -161,8 +177,9 @@ function EditTask() {
                   name="priority"
                   value={formData.priority}
                   onChange={handleChange}
-                  className="w-full h-14 rounded-2xl border border-slate-200 px-5 outline-none focus:ring-4 focus:ring-indigo-100"
+                  className="h-14 w-full rounded-2xl border border-slate-200 px-5 outline-none focus:ring-4 focus:ring-indigo-100"
                 >
+
                   <option value="Low">
                     🟢 Low Priority
                   </option>
@@ -179,14 +196,15 @@ function EditTask() {
 
               </div>
 
-              <div className="grid md:grid-cols-2 gap-6 mb-8">
+              <div className="mb-8 grid gap-6 md:grid-cols-2">
 
                 <select
                   name="category"
                   value={formData.category}
                   onChange={handleChange}
-                  className="w-full h-14 rounded-2xl border border-slate-200 px-5 outline-none focus:ring-4 focus:ring-indigo-100"
+                  className="h-14 w-full rounded-2xl border border-slate-200 px-5 outline-none focus:ring-4 focus:ring-indigo-100"
                 >
+
                   <option value="Work">
                     💼 Work
                   </option>
@@ -205,8 +223,9 @@ function EditTask() {
                   name="status"
                   value={formData.status}
                   onChange={handleChange}
-                  className="w-full h-14 rounded-2xl border border-slate-200 px-5 outline-none focus:ring-4 focus:ring-indigo-100"
+                  className="h-14 w-full rounded-2xl border border-slate-200 px-5 outline-none focus:ring-4 focus:ring-indigo-100"
                 >
+
                   <option value="Pending">
                     Pending
                   </option>
@@ -228,7 +247,11 @@ function EditTask() {
                 disabled={loading}
                 className="w-full"
               >
-                {loading ? "Updating Task..." : "Save Changes 💾"}
+
+                {loading
+                  ? "Updating Task..."
+                  : "Save Changes 💾"}
+
               </Button>
 
             </form>
@@ -242,6 +265,7 @@ function EditTask() {
     </PageWrapper>
 
   );
+
 }
 
 export default EditTask;

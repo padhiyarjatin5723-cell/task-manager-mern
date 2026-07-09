@@ -50,7 +50,10 @@ function Register() {
 
       console.log(err);
 
-      toast.error("Registration Failed");
+      toast.error(
+        err?.response?.data?.message ||
+        "Registration Failed"
+      );
 
     } finally {
 
@@ -64,13 +67,13 @@ function Register() {
 
     <AuthLayout>
 
-      <div className="w-full max-w-md bg-white rounded-3xl shadow-2xl p-10">
+      <div className="w-full max-w-md rounded-3xl bg-white p-10 shadow-2xl">
 
         <h1 className="text-4xl font-bold text-slate-800">
           Create Account 🚀
         </h1>
 
-        <p className="text-slate-500 mt-2">
+        <p className="mt-2 text-slate-500">
           Join TaskFlow and start managing your work.
         </p>
 
@@ -81,7 +84,7 @@ function Register() {
 
           <div className="relative">
 
-            <FaUser className="absolute left-4 top-4 text-slate-400"/>
+            <FaUser className="absolute left-4 top-4 text-slate-400" />
 
             <Input
               type="text"
@@ -89,14 +92,14 @@ function Register() {
               placeholder="Full Name"
               value={formData.name}
               onChange={handleChange}
-              className="pl-12 h-14 rounded-xl"
+              className="h-14 rounded-xl pl-12"
             />
 
           </div>
 
           <div className="relative">
 
-            <FaEnvelope className="absolute left-4 top-4 text-slate-400"/>
+            <FaEnvelope className="absolute left-4 top-4 text-slate-400" />
 
             <Input
               type="email"
@@ -104,14 +107,14 @@ function Register() {
               placeholder="Email Address"
               value={formData.email}
               onChange={handleChange}
-              className="pl-12 h-14 rounded-xl"
+              className="h-14 rounded-xl pl-12"
             />
 
           </div>
 
           <div className="relative">
 
-            <FaLock className="absolute left-4 top-4 text-slate-400"/>
+            <FaLock className="absolute left-4 top-4 text-slate-400" />
 
             <Input
               type="password"
@@ -119,7 +122,7 @@ function Register() {
               placeholder="Password"
               value={formData.password}
               onChange={handleChange}
-              className="pl-12 h-14 rounded-xl"
+              className="h-14 rounded-xl pl-12"
             />
 
           </div>
@@ -127,16 +130,18 @@ function Register() {
           <Button
             type="submit"
             disabled={loading}
-            className="w-full h-14 rounded-xl bg-gradient-to-r from-indigo-600 to-violet-600 hover:opacity-90 text-white font-semibold"
+            className="h-14 w-full rounded-xl bg-gradient-to-r from-indigo-600 to-violet-600 font-semibold text-white hover:opacity-90"
           >
 
-            {loading ? "Creating..." : "Create Account"}
+            {loading
+              ? "Creating..."
+              : "Create Account"}
 
           </Button>
 
         </form>
 
-        <div className="text-center mt-8">
+        <div className="mt-8 text-center">
 
           <span className="text-slate-500">
             Already have an account?
@@ -144,7 +149,7 @@ function Register() {
 
           <Link
             to="/login"
-            className="text-indigo-600 font-semibold ml-2"
+            className="ml-2 font-semibold text-indigo-600"
           >
             Login
           </Link>
@@ -156,6 +161,7 @@ function Register() {
     </AuthLayout>
 
   );
+
 }
 
 export default Register;
