@@ -20,12 +20,25 @@ const userSchema = new mongoose.Schema(
       type: String,
       required: true,
     },
+
+    avatar: {
+      type: String,
+      default: "",
+    },
+
+    theme: {
+      type: String,
+      enum: ["light", "dark"],
+      default: "dark",
+    },
   },
   {
     timestamps: true,
   }
 );
 
-const User = mongoose.model("User", userSchema);
+const User =
+  mongoose.models.User ||
+  mongoose.model("User", userSchema);
 
 export default User;

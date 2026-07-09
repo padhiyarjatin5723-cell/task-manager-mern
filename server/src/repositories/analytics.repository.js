@@ -1,4 +1,4 @@
-import Task from "../models/task.js";
+import Task from "../models/Task.js";
 
 export const getAnalyticsData = async (userId) => {
   const tasks = await Task.find({ user: userId });

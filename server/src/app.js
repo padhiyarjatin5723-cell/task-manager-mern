@@ -5,6 +5,7 @@ import taskRoutes from "./routes/task.routes.js";
 import dashboardRoutes from "./routes/dashboard.routes.js";
 import analyticsRoutes from "./routes/analytics.routes.js";
 import projectRoutes from "./routes/project.routes.js";
+import userRoutes from "./routes/user.routes.js";
 
 const app = express();
 
@@ -21,6 +22,8 @@ app.use("/api/dashboard", dashboardRoutes);
 app.use("/api/analytics", analyticsRoutes);
 
 app.use("/api/projects", projectRoutes);
+
+app.use("/api/user", userRoutes);
 
 app.get("/", (req, res) => {
   res.send("Task Management API Running...");

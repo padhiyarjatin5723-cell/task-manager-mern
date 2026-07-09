@@ -5,7 +5,10 @@ import {
 
 export const getDashboardStats = async (req, res) => {
   try {
-    const stats = await dashboardStats(req.user.id);
+    const stats = await dashboardStats(
+      req.user.id,
+      req.query.project
+    );
 
     res.json(stats);
   } catch (err) {

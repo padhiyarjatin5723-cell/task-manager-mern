@@ -6,6 +6,7 @@ import {
   BarChart3,
   KanbanSquare,
   FolderKanban,
+  Settings,
 } from "lucide-react";
 
 const navItems = [
@@ -38,6 +39,11 @@ const navItems = [
     label: "Analytics",
     path: "/analytics",
     icon: BarChart3,
+  },
+  {
+    label: "Settings",
+    path: "/settings",
+    icon: Settings,
   },
 ];
 

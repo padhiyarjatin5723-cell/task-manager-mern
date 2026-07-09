@@ -11,6 +11,7 @@ import {
   getDashboardStats,
   getDashboardTasks,
 } from "../../services/dashboard/dashboard.service";
+import { getProjects } from "../../services/project/project.service";
 
 function Dashboard() {
   const [loading, setLoading] = useState(true);
@@ -24,25 +25,56 @@ function Dashboard() {
 
   const [tasks, setTasks] = useState([]);
 
+  const [projects, setProjects] = useState([]);
+
+  const [selectedProject, setSelectedProject] = useState("All");
+
   useEffect(() => {
-    const loadDashboard = async () => {
-      try {
-        const [statsRes, tasksRes] = await Promise.all([
-          getDashboardStats(),
-          getDashboardTasks(),
-        ]);
-
-        setStats(statsRes.data);
-        setTasks(tasksRes.data);
-      } catch (err) {
-        console.log(err);
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    loadDashboard();
+    loadProjects();
   }, []);
+
+  useEffect(() => {
+    loadDashboard();
+  }, [selectedProject]);
+
+  const loadProjects = async () => {
+    try {
+      const res = await getProjects();
+
+      setProjects(res.data);
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
+  const loadDashboard = async () => {
+    try {
+      setLoading(true);
+
+      const [statsRes, tasksRes] = await Promise.all([
+        getDashboardStats(selectedProject),
+        getDashboardTasks(),
+      ]);
+
+      setStats(statsRes.data);
+      setTasks(
+        selectedProject === "All"
+          ? tasksRes.data
+          : tasksRes.data.filter((task) => {
+              const taskProjectId =
+                typeof task.project === "string"
+                  ? task.project
+                  : task.project?._id;
+
+              return taskProjectId === selectedProject;
+            })
+      );
+    } catch (err) {
+      console.log(err);
+    } finally {
+      setLoading(false);
+    }
+  };
 
   if (loading) {
     return <Loader />;
@@ -50,6 +82,33 @@ function Dashboard() {
 
   return (
   <AppLayout>
+
+    <div className="mb-8">
+
+      <select
+        value={selectedProject}
+        onChange={(e) =>
+          setSelectedProject(e.target.value)
+        }
+        className="w-72 rounded-2xl border border-white/10 bg-[#151823] px-5 py-3 text-white outline-none"
+      >
+        <option value="All">
+          All Projects
+        </option>
+
+        {projects.map((project) => (
+
+          <option
+            key={project._id}
+            value={project._id}
+          >
+            {project.name}
+          </option>
+
+        ))}
+      </select>
+
+    </div>
 
     <DashboardHero />
 

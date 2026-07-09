@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import toast from "react-hot-toast";
 
@@ -9,20 +9,38 @@ import Button from "../../components/button/button";
 import PageWrapper from "../../components/PageWrapper/PageWrapper";
 
 import { createTask } from "../../services/task/task.service";
+import { getProjects } from "../../services/project/project.service";
 
 function CreateTask() {
   const navigate = useNavigate();
 
   const [loading, setLoading] = useState(false);
 
+  const [projects, setProjects] = useState([]);
+
   const [formData, setFormData] = useState({
     title: "",
     description: "",
     dueDate: "",
+    project: "",
     priority: "Medium",
     category: "Work",
     status: "Pending",
   });
+
+  useEffect(() => {
+    loadProjects();
+  }, []);
+
+  const loadProjects = async () => {
+    try {
+      const res = await getProjects();
+
+      setProjects(res.data);
+    } catch (err) {
+      console.log(err);
+    }
+  };
 
   const handleChange = (e) => {
     setFormData({
@@ -118,6 +136,32 @@ function CreateTask() {
                   value={formData.dueDate}
                   onChange={handleChange}
                 />
+
+                <select
+                  name="project"
+                  value={formData.project}
+                  onChange={handleChange}
+                  className="w-full h-14 rounded-2xl border border-slate-200 px-5 outline-none focus:ring-4 focus:ring-indigo-100"
+                >
+                  <option value="">
+                    Select Project
+                  </option>
+
+                  {projects.map((project) => (
+
+                    <option
+                      key={project._id}
+                      value={project._id}
+                    >
+                      {project.name}
+                    </option>
+
+                  ))}
+                </select>
+
+              </div>
+
+              <div className="grid md:grid-cols-2 gap-6 mb-6">
 
                 <select
                   name="priority"

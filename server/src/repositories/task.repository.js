@@ -1,4 +1,4 @@
-import Task from "../models/task.js";
+import Task from "../models/Task.js";
 
 export const createTask = async (data) => {
   return await Task.create(data);
@@ -7,14 +7,14 @@ export const createTask = async (data) => {
 export const getTasks = async (userId) => {
   return await Task.find({
     user: userId,
-  });
+  }).populate("project");
 };
 
 export const getTaskById = async (id, userId) => {
   return await Task.findOne({
     _id: id,
     user: userId,
-  });
+  }).populate("project");
 };
 
 export const updateTask = async (id, data, userId) => {

@@ -3,8 +3,14 @@ import {
   getRecentTasks,
 } from "../repositories/dashboard.repository.js";
 
-export const dashboardStats = async (userId) => {
-  return await getStats(userId);
+export const dashboardStats = async (
+  userId,
+  projectId
+) => {
+  return await getStats(
+    userId,
+    projectId
+  );
 };
 
 export const dashboardTasks = async (userId) => {

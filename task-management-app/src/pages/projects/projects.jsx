@@ -3,12 +3,15 @@ import { Plus } from "lucide-react";
 
 import AppLayout from "../../layouts/AppLayout";
 import ProjectGrid from "../../components/projects/ProjectGrid";
+import CreateProjectModal from "../../components/projects/CreateProjectModal";
 
 import { getProjects } from "../../services/project/project.service";
 
 function Projects() {
 
   const [projects, setProjects] = useState([]);
+
+  const [open, setOpen] = useState(false);
 
   useEffect(() => {
     loadProjects();
@@ -31,6 +34,12 @@ function Projects() {
   return (
     <AppLayout>
 
+      <CreateProjectModal
+        open={open}
+        onClose={() => setOpen(false)}
+        refreshProjects={loadProjects}
+      />
+
       <div className="flex items-center justify-between">
 
         <div>
@@ -46,6 +55,7 @@ function Projects() {
         </div>
 
         <button
+          onClick={() => setOpen(true)}
           className="flex items-center gap-2 rounded-2xl bg-gradient-to-r from-violet-600 to-indigo-600 px-6 py-4 font-semibold text-white"
         >
 

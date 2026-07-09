@@ -8,19 +8,28 @@ import SearchBar from "../../components/tasks/SearchBar";
 import FilterBar from "../../components/tasks/FilterBar";
 import TaskGrid from "../../components/tasks/TaskGrid";
 
-import { getTasks } from "../../services/task/task.service";
+import {
+  deleteTask,
+  getTasks,
+} from "../../services/task/task.service";
+import { getProjects } from "../../services/project/project.service";
 
 function Tasks() {
   const navigate = useNavigate();
 
   const [tasks, setTasks] = useState([]);
 
+  const [projects, setProjects] = useState([]);
+
   const [search, setSearch] = useState("");
 
   const [status, setStatus] = useState("All");
 
+  const [selectedProject, setSelectedProject] = useState("All");
+
   useEffect(() => {
     loadTasks();
+    loadProjects();
   }, []);
 
   const loadTasks = async () => {
@@ -30,6 +39,22 @@ function Tasks() {
     } catch (err) {
       console.log(err);
     }
+  };
+
+  const loadProjects = async () => {
+    try {
+      const res = await getProjects();
+
+      setProjects(res.data);
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
+  const removeTask = async (id) => {
+    await deleteTask(id);
+
+    loadTasks();
   };
 
   const filteredTasks = useMemo(() => {
@@ -45,10 +70,20 @@ function Tasks() {
           ? true
           : task.status === status;
 
-      return searchMatch && statusMatch;
+      const taskProjectId =
+        typeof task.project === "string"
+          ? task.project
+          : task.project?._id;
+
+      const projectMatch =
+        selectedProject === "All"
+          ? true
+          : taskProjectId === selectedProject;
+
+      return searchMatch && statusMatch && projectMatch;
 
     });
-  }, [tasks, search, status]);
+  }, [tasks, search, status, selectedProject]);
 
   return (
     <AppLayout>
@@ -80,6 +115,33 @@ function Tasks() {
 
       </div>
 
+      <div className="mt-8">
+
+        <select
+          value={selectedProject}
+          onChange={(e) =>
+            setSelectedProject(e.target.value)
+          }
+          className="w-72 rounded-2xl border border-white/10 bg-[#151823] px-5 py-3 text-white outline-none"
+        >
+          <option value="All">
+            All Projects
+          </option>
+
+          {projects.map((project) => (
+
+            <option
+              key={project._id}
+              value={project._id}
+            >
+              {project.name}
+            </option>
+
+          ))}
+        </select>
+
+      </div>
+
       <SearchBar
         search={search}
         setSearch={setSearch}
@@ -92,7 +154,7 @@ function Tasks() {
 
       <TaskGrid
         tasks={filteredTasks}
-        refreshTasks={loadTasks}
+        removeTask={removeTask}
       />
 
     </AppLayout>

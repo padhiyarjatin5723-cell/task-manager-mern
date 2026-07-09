@@ -9,6 +9,7 @@ import EditTask from "./pages/EditTask/EditTask";
 import Analytics from "./pages/analytics/analytics";
 import Board from "./pages/board/board";
 import Projects from "./pages/projects/projects";
+import Settings from "./pages/settings/settings";
 import NotFound from "./pages/notfound/notfound";
 
 import ProtectedRoute from "./components/ProtectedRoute";
@@ -105,6 +106,16 @@ function App() {
           element={
             <ProtectedRoute>
               <Analytics />
+            </ProtectedRoute>
+          }
+        />
+
+        {/* Settings */}
+        <Route
+          path="/settings"
+          element={
+            <ProtectedRoute>
+              <Settings />
             </ProtectedRoute>
           }
         />

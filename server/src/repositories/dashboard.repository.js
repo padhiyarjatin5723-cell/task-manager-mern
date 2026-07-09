@@ -1,24 +1,40 @@
-import Task from "../models/task.js";
+import Task from "../models/Task.js";
 
-export const getStats = async (userId) => {
-  const total = await Task.countDocuments({
+export const getStats = async (
+  userId,
+  projectId
+) => {
+  const filter = {
     user: userId,
-  });
+  };
 
-  const pending = await Task.countDocuments({
-    user: userId,
-    status: "Pending",
-  });
+  if (
+    projectId &&
+    projectId !== "All"
+  ) {
+    filter.project = projectId;
+  }
 
-  const completed = await Task.countDocuments({
-    user: userId,
-    status: "Completed",
-  });
+  const total =
+    await Task.countDocuments(filter);
 
-  const inProgress = await Task.countDocuments({
-    user: userId,
-    status: "In Progress",
-  });
+  const pending =
+    await Task.countDocuments({
+      ...filter,
+      status: "Pending",
+    });
+
+  const completed =
+    await Task.countDocuments({
+      ...filter,
+      status: "Completed",
+    });
+
+  const inProgress =
+    await Task.countDocuments({
+      ...filter,
+      status: "In Progress",
+    });
 
   return {
     total,
