@@ -1,28 +1,32 @@
 import React from "react";
 import ReactDOM from "react-dom/client";
-
 import { Toaster } from "react-hot-toast";
 
 import "./index.css";
 import App from "./App";
+import { ThemeProvider } from "./context/ThemeContext";
 
 ReactDOM.createRoot(document.getElementById("root")).render(
   <React.StrictMode>
 
-    <App />
+    <ThemeProvider>
 
-    <Toaster
-      position="top-right"
-      reverseOrder={false}
-      toastOptions={{
-        duration: 3000,
-        style: {
-          background: "#151823",
-          color: "#ffffff",
-          border: "1px solid rgba(255,255,255,.08)",
-        },
-      }}
-    />
+      <App />
+
+      <Toaster
+        position="top-right"
+        reverseOrder={false}
+        toastOptions={{
+          duration: 3000,
+          style: {
+            background: "#151823",
+            color: "#ffffff",
+            border: "1px solid rgba(255,255,255,.08)",
+          },
+        }}
+      />
+
+    </ThemeProvider>
 
   </React.StrictMode>
 );
