@@ -1,4 +1,4 @@
-import TaskCard from "../TaskCard/taskcard";
+import TaskCard from "../taskcard/taskcard";
 
 function TaskGrid({
   tasks,
