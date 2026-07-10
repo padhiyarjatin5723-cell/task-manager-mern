@@ -22,24 +22,48 @@ function EditProjectModal({
   if (!open) return null;
 
   const handleUpdate = async () => {
+
+    console.log("========== UPDATE CLICKED ==========");
+    console.log("Project:", project);
+    console.log("Project ID:", project?._id);
+    console.log("Name:", name);
+    console.log("Description:", description);
+
     if (!name.trim()) {
       toast.error("Project name is required");
       return;
     }
 
     try {
-      await updateProject(project._id, {
-        name,
-        description,
-      });
+
+      console.log("Calling API...");
+
+      const res = await updateProject(
+        project._id,
+        {
+          name,
+          description,
+        }
+      );
+
+      console.log("API Response:", res);
 
       toast.success("Project Updated");
 
-      refreshProjects();
+      await refreshProjects();
 
       onClose();
+
     } catch (err) {
+
+      console.log("========== UPDATE ERROR ==========");
       console.log(err);
+
+      if (err.response) {
+        console.log("Status:", err.response.status);
+        console.log("Data:", err.response.data);
+      }
+
       toast.error("Failed to update project");
     }
   };
