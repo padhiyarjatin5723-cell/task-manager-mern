@@ -19,7 +19,7 @@ function Analytics() {
   <AnalyticsGrid analytics={analytics} />
 
   <div className="mt-8">
-    <WeeklyChart analytics={analytics} />
+    <StatusPieChart analytics={analytics} />
   </div>
 
   {/* <StatusPieChart analytics={analytics} /> */}
