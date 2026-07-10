@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import AppLayout from "../../layouts/AppLayout";
 import AnalyticsGrid from "../../components/analytics/AnalyticsGrid";
+import WeeklyChart from "../../components/analytics/WeeklyChart";
 
 function Analytics() {
   const [analytics] = useState({
@@ -17,7 +18,9 @@ function Analytics() {
 
   <AnalyticsGrid analytics={analytics} />
 
-  {/* <WeeklyChart analytics={analytics} /> */}
+  <div className="mt-8">
+    <WeeklyChart analytics={analytics} />
+  </div>
 
   {/* <StatusPieChart analytics={analytics} /> */}
 
