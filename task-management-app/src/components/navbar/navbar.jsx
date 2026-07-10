@@ -127,7 +127,11 @@ function Navbar() {
                 className="w-80 rounded-2xl border border-white/10 bg-white/5 py-3 pl-12 pr-20 text-white outline-none placeholder:text-slate-500 focus:border-violet-500"
               />
 
-              {query && (
+              {query.trim() &&
+                  (
+                  results.tasks.length > 0 ||
+                  results.projects.length > 0
+                  ) && (
 
                 <div className="absolute left-0 right-0 top-16 z-50 max-h-80 overflow-y-auto rounded-2xl border border-white/10 bg-[#151823] p-2 shadow-2xl">
 
@@ -154,10 +158,16 @@ function Navbar() {
                           key={task._id}
                           onClick={() => {
 
-                            navigate("/tasks");
-                            setQuery("");
+                          navigate("/tasks");
 
-                          }}
+                          setResults({
+                            tasks: [],
+                            projects: [],
+                          });
+
+                          setQuery("");
+
+                        }}
                           className="block w-full rounded-xl px-3 py-3 text-left text-white transition hover:bg-white/5"
                         >
 
@@ -185,10 +195,16 @@ function Navbar() {
                           key={project._id}
                           onClick={() => {
 
-                            navigate("/projects");
-                            setQuery("");
+                          navigate("/projects");
 
-                          }}
+                          setResults({
+                            tasks: [],
+                            projects: [],
+                          });
+
+                          setQuery("");
+
+                        }}
                           className="block w-full rounded-xl px-3 py-3 text-left text-white transition hover:bg-white/5"
                         >
 

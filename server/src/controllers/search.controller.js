@@ -7,7 +7,16 @@ export const globalSearchController = async (
 ) => {
   try {
 
-    const query = req.query.query || "";
+    
+
+    const query = (req.query.query || "").trim();
+
+    if (!query) {
+      return res.json({
+        tasks: [],
+        projects: [],
+      });
+    }
 
     const regex = new RegExp(query, "i");
 
