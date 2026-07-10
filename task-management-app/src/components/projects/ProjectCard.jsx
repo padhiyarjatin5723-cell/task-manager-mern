@@ -7,7 +7,7 @@ import {
 
 import toast from "react-hot-toast";
 
-import CreateProjectModal from "./CreateProjectModal";
+import EditProjectModal from "./EditProjectModal";
 
 import {
   deleteProject,
@@ -44,7 +44,7 @@ function ProjectCard({
 
   return (
     <>
-      <CreateProjectModal
+      <EditProjectModal
         open={openEdit}
         onClose={() =>
           setOpenEdit(false)
