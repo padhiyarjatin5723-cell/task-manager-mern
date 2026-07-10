@@ -9,6 +9,7 @@ import TaskCard from "../taskcard/taskcard";
 
 function TaskGrid({
   tasks,
+  removeTask,
 }) {
 
   const navigate = useNavigate();
@@ -65,6 +66,7 @@ function TaskGrid({
         <TaskCard
           key={task._id}
           task={task}
+          handleDelete={removeTask}
         />
 
       ))}
