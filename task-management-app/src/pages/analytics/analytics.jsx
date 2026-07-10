@@ -14,8 +14,16 @@ function Analytics() {
 
   return (
     <AppLayout>
-      <AnalyticsGrid analytics={analytics} />
-    </AppLayout>
+
+  <AnalyticsGrid analytics={analytics} />
+
+  {/* <WeeklyChart analytics={analytics} /> */}
+
+  {/* <StatusPieChart analytics={analytics} /> */}
+
+  {/* <ProductivityCard analytics={analytics} /> */}
+
+</AppLayout>
   );
 }
 
