@@ -5,7 +5,7 @@ import { useNavigate } from "react-router-dom";
 import AppLayout from "../../layouts/AppLayout";
 import FilterBar from "../../components/tasks/FilterBar";
 import TaskGrid from "../../components/tasks/TaskGrid";
-
+import toast from "react-hot-toast";
 import {
   deleteTask,
   getTasks,
@@ -48,10 +48,30 @@ function Tasks() {
   };
 
   const removeTask = async (id) => {
+
+  const confirmDelete = window.confirm(
+    "Are you sure you want to delete this task?"
+  );
+
+  if (!confirmDelete) return;
+
+  try {
+
     await deleteTask(id);
 
+    toast.success("Task Deleted");
+
     loadTasks();
-  };
+
+  } catch (err) {
+
+    console.log(err);
+
+    toast.error("Failed to delete task");
+
+  }
+
+};
 
   const filteredTasks = useMemo(() => {
     return tasks.filter((task) => {
