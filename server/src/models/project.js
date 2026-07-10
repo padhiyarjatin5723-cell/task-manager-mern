@@ -18,11 +18,6 @@ const projectSchema = new mongoose.Schema(
       type: String,
       default: "",
     },
-
-    color: {
-      type: String,
-      default: "#7C3AED",
-    },
   },
   {
     timestamps: true,

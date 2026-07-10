@@ -17,7 +17,7 @@ function ProductivityCard({
       : "Needs Improvement";
 
   return (
-    <div className="rounded-[30px] bg-gradient-to-r from-violet-600 via-indigo-600 to-blue-600 p-8">
+    <div className="h-full rounded-[30px] bg-gradient-to-r from-violet-600 via-indigo-600 to-blue-600 p-8">
 
       <div className="flex flex-col gap-8 lg:flex-row lg:items-center lg:justify-between">
 

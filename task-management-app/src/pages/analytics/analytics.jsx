@@ -47,16 +47,16 @@ function Analytics() {
       <AnalyticsGrid analytics={analytics} />
 
       <div className="mt-8">
-        <WeeklyChart analytics={analytics} />
-      </div>
+  <WeeklyChart analytics={analytics} />
+</div>
 
-      <div className="mt-8">
-        <StatusPieChart analytics={analytics} />
-      </div>
+<div className="mt-8 grid grid-cols-1 xl:grid-cols-2 gap-8">
 
-      <div className="mt-8">
-        <ProductivityCard analytics={analytics} />
-      </div>
+  <StatusPieChart analytics={analytics} />
+
+  <ProductivityCard analytics={analytics} />
+
+</div>
     </AppLayout>
   );
 }

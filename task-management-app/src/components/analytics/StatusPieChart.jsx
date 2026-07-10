@@ -30,7 +30,7 @@ function StatusPieChart({ analytics }) {
   ];
 
   return (
-    <div className="rounded-[30px] border border-white/10 bg-[#151823]/90 p-7">
+    <div className="h-full rounded-[30px] border border-white/10 bg-[#151823]/90 p-7">
 
       <h2 className="text-2xl font-bold text-white">
         Task Status
@@ -40,7 +40,7 @@ function StatusPieChart({ analytics }) {
         Current task distribution
       </p>
 
-      <div className="mt-6 h-[350px]">
+      <div className="mt-6 flex h-[420px] items-center justify-center"> 
 
         <ResponsiveContainer width="100%" height="100%">
 
