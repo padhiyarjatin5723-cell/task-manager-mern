@@ -70,10 +70,7 @@ function AnalyticsGrid({ analytics }) {
               </p>
 
               <h2 className="mt-4 text-5xl font-black text-white">
-  <CountUp
-    end={card.value}
-    duration={1.5}
-  />
+  {card.value}
 </h2>
 
             </div>
