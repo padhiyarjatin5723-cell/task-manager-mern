@@ -2,32 +2,25 @@ import {
   Bell,
   Search,
   LogOut,
-  MoonStar,
-  Sun,
   ChevronDown,
 } from "lucide-react";
-
-import { useTheme } from "../../context/ThemeContext";
 
 import { Menu } from "@headlessui/react";
 import { useNavigate } from "react-router-dom";
 import { useState, useEffect } from "react";
-
+import toast from "react-hot-toast";
 import ProfileModal from "../profile/ProfileModal";
 import { globalSearch } from "../../services/task/task.service";
 
 function Navbar() {
   const navigate = useNavigate();
 
-  const { theme, setTheme } = useTheme();
-
   const [openProfile, setOpenProfile] = useState(false);
 
   const [query, setQuery] = useState("");
 
   const [results, setResults] = useState({
-    tasks: [],
-    projects: [],
+  tasks: [],
   });
 
   const username =
@@ -39,8 +32,7 @@ function Navbar() {
   useEffect(() => {
     if (!query.trim()) {
       setResults({
-        tasks: [],
-        projects: [],
+      tasks: [],
       });
       return;
     }
@@ -123,20 +115,18 @@ function Navbar() {
                 onChange={(e) =>
                   setQuery(e.target.value)
                 }
-                placeholder="Search tasks & projects..."
+                placeholder="Search tasks ..."
                 className="w-80 rounded-2xl border border-white/10 bg-white/5 py-3 pl-12 pr-20 text-white outline-none placeholder:text-slate-500 focus:border-violet-500"
               />
 
               {query.trim() &&
                   (
-                  results.tasks.length > 0 ||
-                  results.projects.length > 0
+                  results.tasks.length > 0
                   ) && (
 
                 <div className="absolute left-0 right-0 top-16 z-50 max-h-80 overflow-y-auto rounded-2xl border border-white/10 bg-[#151823] p-2 shadow-2xl">
 
-                  {results.tasks.length === 0 &&
-                    results.projects.length === 0 && (
+                  {results.tasks.length === 0 && (
 
                     <p className="px-3 py-3 text-slate-400">
                       No results found
@@ -181,71 +171,19 @@ function Navbar() {
 
                   )}
 
-                  {results.projects.length > 0 && (
-
-                    <>
-
-                      <p className="mt-2 px-3 py-2 text-xs uppercase text-slate-500">
-                        Projects
-                      </p>
-
-                      {results.projects.map((project) => (
-
-                        <button
-                          key={project._id}
-                          onClick={() => {
-
-                          navigate("/projects");
-
-                          setResults({
-                            tasks: [],
-                            projects: [],
-                          });
-
-                          setQuery("");
-
-                        }}
-                          className="block w-full rounded-xl px-3 py-3 text-left text-white transition hover:bg-white/5"
-                        >
-
-                          📁 {project.name}
-
-                        </button>
-
-                      ))}
-
-                    </>
-
-                  )}
-
                 </div>
 
               )}
 
             </div>
-
-            <button className="flex h-12 w-12 items-center justify-center rounded-2xl border border-white/10 bg-white/5 text-slate-300 transition hover:bg-violet-600 hover:text-white">
-
-              <Bell size={20} />
-
-            </button>
-
             <button
               onClick={() =>
-                setTheme(
-                  theme === "dark"
-                    ? "light"
-                    : "dark"
-                )
+                toast("No new notifications")
               }
               className="flex h-12 w-12 items-center justify-center rounded-2xl border border-white/10 bg-white/5 text-slate-300 transition hover:bg-violet-600 hover:text-white"
             >
 
-              {theme === "dark" ? (
-                <Sun size={20} />
-              ) : (
-                <MoonStar size={20} />
-              )}
+              <Bell size={20} />
 
             </button>
 
@@ -279,25 +217,6 @@ function Navbar() {
               </Menu.Button>
 
               <Menu.Items className="absolute right-0 mt-3 w-56 rounded-2xl border border-white/10 bg-[#151823] p-2 shadow-2xl">
-
-                <Menu.Item>
-
-                  {() => (
-
-                    <button
-                      onClick={() =>
-                        setOpenProfile(true)
-                      }
-                      className="w-full rounded-xl px-4 py-3 text-left text-white transition hover:bg-white/5"
-                    >
-
-                      My Profile
-
-                    </button>
-
-                  )}
-
-                </Menu.Item>
 
                 <Menu.Item>
 

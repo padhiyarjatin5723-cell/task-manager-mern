@@ -2,10 +2,6 @@ import { NavLink } from "react-router-dom";
 import {
   LayoutDashboard,
   CheckSquare,
-  PlusCircle,
-  BarChart3,
-  KanbanSquare,
-  FolderKanban,
 } from "lucide-react";
 
 const navItems = [
@@ -22,22 +18,18 @@ const navItems = [
   {
     label: "Create Task",
     path: "/create-task",
-    icon: PlusCircle,
   },
   {
     label: "Board",
     path: "/board",
-    icon: KanbanSquare,
   },
   {
     label: "Projects",
     path: "/projects",
-    icon: FolderKanban,
   },
   {
     label: "Analytics",
     path: "/analytics",
-    icon: BarChart3,
   },
 ];
 
@@ -56,10 +48,13 @@ function Sidebar() {
       "
     >
       <nav className="space-y-3">
+
         {navItems.map((item) => {
+
           const Icon = item.icon;
 
           return (
+
             <NavLink
               key={item.path}
               to={item.path}
@@ -81,12 +76,19 @@ function Sidebar() {
                 `
               }
             >
-              <Icon size={20} />
 
-              <span className="font-medium">{item.label}</span>
+              {Icon && <Icon size={20} />}
+
+              <span className="font-medium">
+                {item.label}
+              </span>
+
             </NavLink>
+
           );
+
         })}
+
       </nav>
     </aside>
   );

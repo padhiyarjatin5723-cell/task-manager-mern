@@ -104,32 +104,6 @@ function Dashboard() {
   return (
     <AppLayout>
 
-      <div className="mb-8">
-
-        <select
-          value={selectedProject}
-          onChange={(e) => setSelectedProject(e.target.value)}
-          className="w-72 rounded-2xl border border-white/10 bg-[#151823] px-5 py-3 text-white outline-none"
-        >
-          <option value="All">
-            All Projects
-          </option>
-
-          {projects.map((project) => (
-
-            <option
-              key={project._id}
-              value={project._id}
-            >
-              {project.name}
-            </option>
-
-          ))}
-
-        </select>
-
-      </div>
-
       <DashboardHero />
 
       <div className="mt-8">

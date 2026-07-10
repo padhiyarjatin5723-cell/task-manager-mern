@@ -17,8 +17,7 @@ export const getAnalyticsData = async (userId) => {
   ).length;
 
   const inProgress = tasks.filter(
-    (task) =>
-      task.status === "In Progress"
+    (task) => task.status === "In Progress"
   ).length;
 
   const weekly = [
@@ -31,22 +30,30 @@ export const getAnalyticsData = async (userId) => {
     { day: "Sun", tasks: 0 },
   ];
 
+  const today = new Date();
+
+  const sevenDaysAgo = new Date();
+  sevenDaysAgo.setDate(today.getDate() - 6);
+  sevenDaysAgo.setHours(0, 0, 0, 0);
+
   tasks.forEach((task) => {
 
-    if (task.status !== "Completed")
-      return;
+    if (task.status !== "Completed") return;
 
-    const day =
-      new Date(task.updatedAt).getDay();
+    const completedDate = new Date(task.updatedAt);
+
+    if (completedDate < sevenDaysAgo) return;
+
+    const day = completedDate.getDay();
 
     const map = [
-      6,
-      0,
-      1,
-      2,
-      3,
-      4,
-      5,
+      6, // Sunday
+      0, // Monday
+      1, // Tuesday
+      2, // Wednesday
+      3, // Thursday
+      4, // Friday
+      5, // Saturday
     ];
 
     weekly[map[day]].tasks++;
@@ -66,9 +73,7 @@ export const getAnalyticsData = async (userId) => {
     completionRate:
       total === 0
         ? 0
-        : Math.round(
-            (completed / total) * 100
-          ),
+        : Math.round((completed / total) * 100),
 
     weekly,
 

@@ -1,5 +1,4 @@
 import Task from "../models/task.js";
-import Project from "../models/project.js";
 
 export const globalSearchController = async (
   req,
@@ -7,14 +6,11 @@ export const globalSearchController = async (
 ) => {
   try {
 
-    
-
     const query = (req.query.query || "").trim();
 
     if (!query) {
       return res.json({
         tasks: [],
-        projects: [],
       });
     }
 
@@ -30,16 +26,8 @@ export const globalSearchController = async (
       .limit(5)
       .select("title status");
 
-    const projects = await Project.find({
-      user: req.user.id,
-      name: regex,
-    })
-      .limit(5)
-      .select("name color");
-
     res.json({
       tasks,
-      projects,
     });
 
   } catch (err) {

@@ -1,6 +1,5 @@
 import Navbar from "../components/navbar/navbar";
 import Sidebar from "../components/sidebar/sidebar";
-import FloatingActionButton from "../components/FloatingActionButton";
 import PageWrapper from "../components/PageWrapper/PageWrapper";
 
 import useMobile from "../hooks/useMobile";
@@ -28,8 +27,6 @@ function AppLayout({ children }) {
           </main>
 
         </div>
-
-        <FloatingActionButton />
 
       </div>
 

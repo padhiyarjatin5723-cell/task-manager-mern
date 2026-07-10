@@ -1,6 +1,5 @@
 import Navbar from "../navbar/navbar";
 import Sidebar from "../sidebar/sidebar";
-import FloatingActionButton from "../FloatingActionButton";
 
 function AppLayout({ children }) {
   return (
@@ -19,8 +18,6 @@ function AppLayout({ children }) {
         </main>
 
       </div>
-
-      <FloatingActionButton />
 
     </div>
   );

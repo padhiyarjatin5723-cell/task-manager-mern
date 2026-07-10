@@ -3,8 +3,6 @@ import { Plus } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 
 import AppLayout from "../../layouts/AppLayout";
-
-import SearchBar from "../../components/tasks/SearchBar";
 import FilterBar from "../../components/tasks/FilterBar";
 import TaskGrid from "../../components/tasks/TaskGrid";
 
@@ -20,8 +18,6 @@ function Tasks() {
   const [tasks, setTasks] = useState([]);
 
   const [projects, setProjects] = useState([]);
-
-  const [search, setSearch] = useState("");
 
   const [status, setStatus] = useState("All");
 
@@ -60,10 +56,7 @@ function Tasks() {
   const filteredTasks = useMemo(() => {
     return tasks.filter((task) => {
 
-      const searchMatch =
-        task.title
-          .toLowerCase()
-          .includes(search.toLowerCase());
+      const searchMatch = true;
 
       const statusMatch =
         status === "All"
@@ -83,7 +76,7 @@ function Tasks() {
       return searchMatch && statusMatch && projectMatch;
 
     });
-  }, [tasks, search, status, selectedProject]);
+  }, [tasks, status, selectedProject]);
 
   return (
     <AppLayout>
@@ -141,11 +134,6 @@ function Tasks() {
         </select>
 
       </div>
-
-      <SearchBar
-        search={search}
-        setSearch={setSearch}
-      />
 
       <FilterBar
         status={status}
