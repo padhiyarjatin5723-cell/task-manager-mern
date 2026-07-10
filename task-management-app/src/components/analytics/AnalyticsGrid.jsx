@@ -6,8 +6,6 @@ import {
   TrendingUp,
 } from "lucide-react";
 
-import CountUp from "react-countup";
-
 function AnalyticsGrid({ analytics }) {
 
   const cards = [
@@ -72,13 +70,11 @@ function AnalyticsGrid({ analytics }) {
               </p>
 
               <h2 className="mt-4 text-5xl font-black text-white">
-
-                <CountUp
-                  end={card.value}
-                  duration={1.5}
-                />
-
-              </h2>
+  <CountUp
+    end={card.value}
+    duration={1.5}
+  />
+</h2>
 
             </div>
 
