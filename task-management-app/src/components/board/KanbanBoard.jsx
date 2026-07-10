@@ -5,20 +5,28 @@ import {
   closestCenter,
 } from "@dnd-kit/core";
 
+import toast from "react-hot-toast";
+
 import BoardColumn from "./BoardColumn";
 
-import { getTasks } from "../../services/task/task.service";
-import { updateTaskStatus } from "../../services/task/updateStatus.service";
+import {
+  getTasks,
+  updateTaskStatus,
+} from "../../services/task/task.service";
 
 function KanbanBoard() {
 
   const [tasks, setTasks] = useState([]);
+
+  const [loading, setLoading] =
+    useState(true);
 
   useEffect(() => {
     loadTasks();
   }, []);
 
   const loadTasks = async () => {
+
     try {
 
       const res = await getTasks();
@@ -29,33 +37,50 @@ function KanbanBoard() {
 
       console.log(err);
 
+      toast.error(
+        "Failed to load tasks"
+      );
+
+    } finally {
+
+      setLoading(false);
+
     }
+
   };
 
-  const handleDragEnd = async ({ active, over }) => {
+  const handleDragEnd = async ({
+    active,
+    over,
+  }) => {
 
     if (!over) return;
 
     const taskId = active.id;
+
     const newStatus = over.id;
 
-    const draggedTask = tasks.find(
+    const oldTasks = [...tasks];
+
+    const task = tasks.find(
       (t) => t._id === taskId
     );
 
-    if (!draggedTask) return;
+    if (!task) return;
 
-    if (draggedTask.status === newStatus) return;
+    if (
+      task.status === newStatus
+    )
+      return;
 
-    // Optimistic UI update
     setTasks((prev) =>
-      prev.map((task) =>
-        task._id === taskId
+      prev.map((t) =>
+        t._id === taskId
           ? {
-              ...task,
+              ...t,
               status: newStatus,
             }
-          : task
+          : t
       )
     );
 
@@ -66,21 +91,44 @@ function KanbanBoard() {
         newStatus
       );
 
+      toast.success(
+        `Moved to ${newStatus}`
+      );
+
     } catch (err) {
 
       console.log(err);
 
-      // Restore data if API fails
-      loadTasks();
+      setTasks(oldTasks);
+
+      toast.error(
+        "Failed to update task"
+      );
 
     }
 
   };
 
+  if (loading) {
+
+    return (
+
+      <div className="py-32 text-center text-slate-400">
+
+        Loading Board...
+
+      </div>
+
+    );
+
+  }
+
   return (
 
     <DndContext
-      collisionDetection={closestCenter}
+      collisionDetection={
+        closestCenter
+      }
       onDragEnd={handleDragEnd}
     >
 
@@ -90,7 +138,9 @@ function KanbanBoard() {
           id="Pending"
           title="Pending"
           tasks={tasks.filter(
-            (t) => t.status === "Pending"
+            (task) =>
+              task.status ===
+              "Pending"
           )}
         />
 
@@ -98,7 +148,9 @@ function KanbanBoard() {
           id="In Progress"
           title="In Progress"
           tasks={tasks.filter(
-            (t) => t.status === "In Progress"
+            (task) =>
+              task.status ===
+              "In Progress"
           )}
         />
 
@@ -106,7 +158,9 @@ function KanbanBoard() {
           id="Completed"
           title="Completed"
           tasks={tasks.filter(
-            (t) => t.status === "Completed"
+            (task) =>
+              task.status ===
+              "Completed"
           )}
         />
 

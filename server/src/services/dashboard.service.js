@@ -1,18 +1,37 @@
 import {
   getStats,
   getRecentTasks,
+  getActivityTimeline,
 } from "../repositories/dashboard.repository.js";
 
 export const dashboardStats = async (
   userId,
   projectId
 ) => {
-  return await getStats(
+
+  const stats = await getStats(
     userId,
     projectId
   );
+
+  const activity =
+    await getActivityTimeline(
+      userId
+    );
+
+  return {
+    ...stats,
+    activity,
+  };
+
 };
 
-export const dashboardTasks = async (userId) => {
-  return await getRecentTasks(userId);
+export const dashboardTasks = async (
+  userId
+) => {
+
+  return await getRecentTasks(
+    userId
+  );
+
 };

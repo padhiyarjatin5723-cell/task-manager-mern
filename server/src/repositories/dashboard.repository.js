@@ -4,6 +4,7 @@ export const getStats = async (
   userId,
   projectId
 ) => {
+
   const filter = {
     user: userId,
   };
@@ -42,14 +43,52 @@ export const getStats = async (
     completed,
     inProgress,
   };
+
 };
 
-export const getRecentTasks = async (userId) => {
+export const getRecentTasks = async (
+  userId
+) => {
+
   return await Task.find({
     user: userId,
   })
     .sort({
-      createdAt: -1,
+      updatedAt: -1,
     })
-    .limit(5);
+    .limit(8)
+    .populate("project");
+
+};
+
+export const getActivityTimeline = async (
+  userId
+) => {
+
+  const tasks =
+    await Task.find({
+      user: userId,
+    })
+      .sort({
+        updatedAt: -1,
+      })
+      .limit(8)
+      .populate("project");
+
+  return tasks.map((task) => ({
+
+    _id: task._id,
+
+    title: task.title,
+
+    status: task.status,
+
+    project:
+      task.project?.name ||
+      "No Project",
+
+    updatedAt: task.updatedAt,
+
+  }));
+
 };

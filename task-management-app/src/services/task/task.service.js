@@ -19,3 +19,20 @@ export const updateTask = async (id, data) => {
 export const deleteTask = async (id) => {
   return await api.delete(`/tasks/${id}`);
 };
+
+export const updateTaskStatus = async (
+  id,
+  status
+) => {
+  return await api.put(`/tasks/${id}`, {
+    status,
+  });
+};
+
+export const globalSearch = async (
+  query
+) => {
+  return await api.get(
+    `/search?query=${query}`
+  );
+};
