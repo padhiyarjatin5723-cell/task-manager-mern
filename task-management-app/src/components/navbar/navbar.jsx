@@ -148,7 +148,9 @@ function Navbar() {
                           key={task._id}
                           onClick={() => {
 
-                          navigate("/tasks");
+                          navigate(
+                            `/tasks?search=${encodeURIComponent(task.title)}`
+                          );
 
                           setResults({
                             tasks: [],

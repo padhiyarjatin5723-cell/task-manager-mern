@@ -1,41 +1,46 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import toast from "react-hot-toast";
 
-import { createProject } from "../../services/project/project.service";
+import { updateProject } from "../../services/project/project.service";
 
-function CreateProjectModal({
+function EditProjectModal({
   open,
   onClose,
+  project,
   refreshProjects,
 }) {
   const [name, setName] = useState("");
   const [description, setDescription] = useState("");
 
+  useEffect(() => {
+    if (project) {
+      setName(project.name || "");
+      setDescription(project.description || "");
+    }
+  }, [project]);
+
   if (!open) return null;
 
-  const handleCreate = async () => {
+  const handleUpdate = async () => {
     if (!name.trim()) {
       toast.error("Project name is required");
       return;
     }
 
     try {
-      await createProject({
+      await updateProject(project._id, {
         name,
         description,
       });
 
-      toast.success("Project Created");
-
-      setName("");
-      setDescription("");
+      toast.success("Project Updated");
 
       refreshProjects();
 
       onClose();
     } catch (err) {
       console.log(err);
-      toast.error("Failed to create project");
+      toast.error("Failed to update project");
     }
   };
 
@@ -45,7 +50,7 @@ function CreateProjectModal({
       <div className="w-[520px] rounded-[30px] border border-white/10 bg-[#151823] p-8">
 
         <h2 className="text-3xl font-bold text-white">
-          Create Project
+          Edit Project
         </h2>
 
         <input
@@ -56,10 +61,12 @@ function CreateProjectModal({
         />
 
         <textarea
-          value={description}
-          onChange={(e) => setDescription(e.target.value)}
-          placeholder="Project Description (Optional)"
           rows={4}
+          value={description}
+          onChange={(e) =>
+            setDescription(e.target.value)
+          }
+          placeholder="Project Description (Optional)"
           className="mt-5 w-full resize-none rounded-2xl border border-white/10 bg-white/5 px-5 py-4 text-white outline-none"
         />
 
@@ -73,10 +80,10 @@ function CreateProjectModal({
           </button>
 
           <button
-            onClick={handleCreate}
+            onClick={handleUpdate}
             className="rounded-2xl bg-violet-600 px-6 py-3 font-semibold text-white hover:bg-violet-500"
           >
-            Create
+            Update
           </button>
 
         </div>
@@ -87,4 +94,4 @@ function CreateProjectModal({
   );
 }
 
-export default CreateProjectModal;
+export default EditProjectModal;

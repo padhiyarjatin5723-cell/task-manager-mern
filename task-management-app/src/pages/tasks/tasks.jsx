@@ -1,6 +1,16 @@
-import { useEffect, useMemo, useState } from "react";
+import {
+  useEffect,
+  useMemo,
+  useState,
+} from "react";
+
 import { Plus } from "lucide-react";
-import { useNavigate } from "react-router-dom";
+
+import {
+  useNavigate,
+  useSearchParams,
+} from "react-router-dom";
+
 import toast from "react-hot-toast";
 
 import AppLayout from "../../layouts/AppLayout";
@@ -17,13 +27,26 @@ import { getProjects } from "../../services/project/project.service";
 function Tasks() {
   const navigate = useNavigate();
 
+  const [searchParams] =
+    useSearchParams();
+
+  const search =
+    searchParams.get("search") || "";
+
   const [tasks, setTasks] = useState([]);
-  const [projects, setProjects] = useState([]);
+  const [projects, setProjects] =
+    useState([]);
 
-  const [status, setStatus] = useState("All");
-  const [selectedProject, setSelectedProject] = useState("All");
+  const [status, setStatus] =
+    useState("All");
 
-  const [sortBy, setSortBy] = useState("newest");
+  const [
+    selectedProject,
+    setSelectedProject,
+  ] = useState("All");
+
+  const [sortBy, setSortBy] =
+    useState("newest");
 
   useEffect(() => {
     loadTasks();
@@ -33,6 +56,7 @@ function Tasks() {
   const loadTasks = async () => {
     try {
       const res = await getTasks();
+
       setTasks(res.data);
     } catch (err) {
       console.log(err);
@@ -42,6 +66,7 @@ function Tasks() {
   const loadProjects = async () => {
     try {
       const res = await getProjects();
+
       setProjects(res.data);
     } catch (err) {
       console.log(err);
@@ -49,7 +74,8 @@ function Tasks() {
   };
 
   const removeTask = async (id) => {
-    if (!window.confirm("Delete this task?")) return;
+    if (!window.confirm("Delete this task?"))
+      return;
 
     try {
       await deleteTask(id);
@@ -66,6 +92,11 @@ function Tasks() {
 
   const filteredTasks = useMemo(() => {
     let result = tasks.filter((task) => {
+      const searchMatch =
+        task.title
+          ?.toLowerCase()
+          .includes(search.toLowerCase());
+
       const statusMatch =
         status === "All"
           ? true
@@ -79,9 +110,14 @@ function Tasks() {
       const projectMatch =
         selectedProject === "All"
           ? true
-          : taskProjectId === selectedProject;
+          : taskProjectId ===
+            selectedProject;
 
-      return statusMatch && projectMatch;
+      return (
+        searchMatch &&
+        statusMatch &&
+        projectMatch
+      );
     });
 
     switch (sortBy) {
@@ -121,7 +157,6 @@ function Tasks() {
             order[a.priority] -
             order[b.priority]
         );
-
         break;
 
       default:
@@ -134,6 +169,7 @@ function Tasks() {
     status,
     selectedProject,
     sortBy,
+    search,
   ]);
 
   return (
@@ -145,7 +181,8 @@ function Tasks() {
           </h1>
 
           <p className="mt-3 text-slate-400">
-            Organize your work beautifully.
+            Organize your work
+            beautifully.
           </p>
         </div>
 
