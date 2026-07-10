@@ -3,8 +3,11 @@ import {
   Search,
   LogOut,
   MoonStar,
+  Sun,
   ChevronDown,
 } from "lucide-react";
+
+import { useTheme } from "../../context/ThemeContext";
 
 import { Menu } from "@headlessui/react";
 import { useNavigate } from "react-router-dom";
@@ -15,6 +18,8 @@ import { globalSearch } from "../../services/task/task.service";
 
 function Navbar() {
   const navigate = useNavigate();
+
+  const { theme, setTheme } = useTheme();
 
   const [openProfile, setOpenProfile] = useState(false);
 
@@ -209,9 +214,22 @@ function Navbar() {
 
             </button>
 
-            <button className="flex h-12 w-12 items-center justify-center rounded-2xl border border-white/10 bg-white/5 text-slate-300 transition hover:bg-violet-600 hover:text-white">
+            <button
+              onClick={() =>
+                setTheme(
+                  theme === "dark"
+                    ? "light"
+                    : "dark"
+                )
+              }
+              className="flex h-12 w-12 items-center justify-center rounded-2xl border border-white/10 bg-white/5 text-slate-300 transition hover:bg-violet-600 hover:text-white"
+            >
 
-              <MoonStar size={20} />
+              {theme === "dark" ? (
+                <Sun size={20} />
+              ) : (
+                <MoonStar size={20} />
+              )}
 
             </button>
 
