@@ -3,7 +3,7 @@ import toast from "react-hot-toast";
 
 import { updateProject } from "../../services/project/project.service";
 
-function EditProjectModal({
+function CreateProjectModal({
   open,
   onClose,
   project,
@@ -94,4 +94,4 @@ function EditProjectModal({
   );
 }
 
-export default EditProjectModal;
+export default CreateProjectModal;
